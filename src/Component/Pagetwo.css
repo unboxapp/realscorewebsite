@@ -1,0 +1,94 @@
+/* Import Exo font */
+@import url(https://fonts.googleapis.com/css?family=Exo:100);
+
+/* Keyframes for fade-in animations (retain these if needed) */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global body styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: #000000;
+  text-align: center;
+  background-color: #000; /* Fallback for areas outside .Pagetwo */
+}
+
+/* Pagetwo styling */
+.Pagetwo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  height: 90vh; /* Full viewport height */
+
+  /* Static background image for this section */
+  background: 
+    url("/public/image/powerpoint-slide-with-white-background-SB02298-min-scaled.jpg") no-repeat center center; /* Replace with your image URL */
+  background-size: cover; /* Ensure the background image covers the section */
+  position: relative; /* Confine the background to this section */
+  overflow: hidden; /* Prevent content overflow outside the section */
+}
+
+/* Left section (image animation) */
+.PhoneLeft img {
+  max-width: 100%;
+  height: auto;
+  animation: fadeInLeft 2s ease-out;
+}
+
+/* Right section (content animation) */
+.WhatisRight {
+  flex: 1;
+  margin-left: 2rem;
+  animation: fadeInUp 2s ease-out;
+}
+
+/* Heading styling */
+.heading h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #05062c;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.heading h1 u {
+  text-decoration-color: #ff4500; /* Custom underline color */
+  text-decoration-thickness: 2px;
+}
+
+/* Paragraph styling */
+.para {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: left;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); */
+}
+
+.para p {
+  margin-bottom: 1rem;
+}
