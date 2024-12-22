@@ -12,6 +12,7 @@ const PageThree = () => {
         ))}
     </ul>
     <div className="Pagethree1">
+
       {/* Heading Section */}
       <div className="heading3">
         <h1>Why keep track of credit score?</h1>
@@ -49,6 +50,7 @@ const PageThree = () => {
             description="Pre-approved offers" 
           />
         </div>
+        <div className="vsep"></div>
       </div>
       </div>
       </div>

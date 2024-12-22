@@ -11,18 +11,26 @@ body {
 }
 
 /* Background Animation */
+.vsep{
+    padding: 30px;
+}
 .area {
-    
+    margin:0;
     background: #03052d;
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
-    height: 90vh;
+    height: auto;
     width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
+.error {
+    color: red;
+    font-size: 12px;
+    
+  }
+  
 .circles {
     position: absolute;
     top: 0;
@@ -157,7 +165,7 @@ body {
 label {
     font-size: 14px;
     color: whitesmoke;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     display: block;
     text-align: left;
 }
@@ -314,6 +322,27 @@ button:hover {
 }
 
 
-
+.input-container {
+    position: relative; /* Ensures error messages align with the input field */
+    margin-bottom: 20px; /* Adds space between form fields */
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't affect field size */
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    position: absolute;
+    bottom: -18px; /* Places the error message below the input */
+    left: 0;
+  }
+  
 
 

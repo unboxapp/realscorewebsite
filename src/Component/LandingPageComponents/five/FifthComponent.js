@@ -73,6 +73,7 @@ const FifthComponent = () => {
                   title: "Credit Enquiries",
                   text: "A credit inquiry is a request by an institution for credit report information from a credit bureau. Credit inquiries are generally of two types: - Hard enquiry & Soft enquiry.",
                 },
+                // sdfghjk
               ].map((item) => (
                 <div className="dropdown-itemf" key={item.id}>
                   <div

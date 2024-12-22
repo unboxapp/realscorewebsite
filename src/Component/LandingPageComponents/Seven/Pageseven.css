@@ -1,0 +1,38 @@
+
+.footer {
+    background-color: #2f2f2f; /* Dark background */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    line-height: 30px;
+  }
+  
+  .footer-links {
+    margin-bottom: 20px;
+  }
+  
+  .footer-links a {
+    color: white;
+    margin: 10px 10px;
+    text-decoration: none;
+    font-size: 18px;
+    text-decoration: underline;
+  }
+  
+  .footer-links a:hover {
+    color: red;
+  }
+  
+  .footer-social {
+    margin-bottom: 20px;
+  }
+  
+  .social-icon {
+    color: white;
+    margin: 0 10px;
+    font-size: 20px;
+  }
+  
+  .footer-bottom {
+    font-size: 14px;
+  }
