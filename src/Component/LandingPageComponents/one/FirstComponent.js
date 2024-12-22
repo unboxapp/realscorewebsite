@@ -272,7 +272,7 @@ const FirstComponent = () => {
                     <a href="#" target="_blank" rel="noopener noreferrer">
                       Credit Score Terms of Use
                     </a>{" "}
-                    and hereby appoint Paisabazaar as my authorised
+                    and hereby appoint RealScore as my authorised
                     representative to receive my credit information from{" "}
                     <a href="#">Cibil</a>, <a href="#">Equifax</a>,{" "}
                     <a href="#">Experian</a>, or <a href="#">CRIF Highmark</a>{" "}
