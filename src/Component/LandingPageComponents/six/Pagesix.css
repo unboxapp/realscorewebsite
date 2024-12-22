@@ -101,28 +101,51 @@
 /* Buttons Container */
 .buttons-container {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   gap: 20px; /* Adjust spacing between buttons */
   margin-top: 20px;
 }
 
-/* Buttons */
+/* Arrow Buttons */
 .btn {
-  padding: 10px 20px;
-  font-size: 0.875rem; /* Relative font size */
-  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
   border: none;
-  background-color: #2DA35D; /* Default button color */
+  background-color: #161d19; /* Default button color */
   color: white;
-  border-radius: 5px;
+  border-radius: 50%; /* Circular button */
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn:hover {
-  background-color: #1e8b4d; /* Darker shade on hover */
+  background-color: #27d472; /* Darker shade on hover */
 }
 
 .btn:active {
-  background-color: #166f3a; /* Even darker shade on click */
+  background-color: #13c45a; /* Even darker shade on click */
+  transform: scale(0.95); /* Slight shrink effect on click */
+}
+
+/* Icons for Buttons */
+.arrow-icon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.arrow-up {
+  border-width: 0 10px 15px 10px;
+  border-color: transparent transparent white transparent;
+}
+
+.arrow-down {
+  border-width: 15px 10px 0 10px;
+  border-color: white transparent transparent transparent;
 }
