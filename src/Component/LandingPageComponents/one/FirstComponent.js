@@ -101,7 +101,6 @@ const FirstComponent = () => {
 
   const openRazorpay = (order) => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
       name: "RealScore",
