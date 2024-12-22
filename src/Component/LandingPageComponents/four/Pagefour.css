@@ -2,7 +2,7 @@
     
     background: #03052d;
     /* background: -webkit-linear-gradient(to left, #b7baf8, #8288fc); */
-    height: 100vh;
+    height: auto;
     width: 100%;
     position: relative;
     display: flex;

@@ -174,6 +174,7 @@
     text-align: center;
     color: rgb(70, 218, 248);
   }
+  /* gidfb */
   /* Responsive Design */
   @media (max-width: 768px) {
     .content-wrapper {

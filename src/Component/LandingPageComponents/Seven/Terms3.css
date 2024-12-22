@@ -1,0 +1,14 @@
+.outer-ref{
+    background-color: aliceblue;
+   
+}
+.text-term {
+    margin: 60px 350px;
+    text-align: justify;
+    font-size: large;
+    color: rgb(67, 67, 67);
+}
+
+.text-term h1 {
+    text-align: center;
+}
