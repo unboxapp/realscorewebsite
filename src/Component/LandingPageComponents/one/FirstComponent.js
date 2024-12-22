@@ -269,13 +269,13 @@ const FirstComponent = () => {
                   />
                   <label htmlFor="terms">
                     I have read and agree to{" "}
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="terms-and-conditions" target="_blank" rel="noopener noreferrer">
                       Credit Score Terms of Use
                     </a>{" "}
                     and hereby appoint RealScore as my authorised
                     representative to receive my credit information from{" "}
-                    <a href="#">Cibil</a>, <a href="#">Equifax</a>,{" "}
-                    <a href="#">Experian</a>, or <a href="#">CRIF Highmark</a>{" "}
+                    <a href="https://www.cibil.com/">Cibil</a>, <a href="https://www.equifax.com/">Equifax</a>,{" "}
+                    <a href="https://www.experian.in/">Experian</a>, or <a href="https://www.crifhighmark.com/">CRIF Highmark</a>{" "}
                     (bureau).
                   </label>
                   {errors.terms && <p className="error">{errors.terms}</p>}
