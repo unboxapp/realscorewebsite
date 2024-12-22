@@ -8,9 +8,9 @@ const SeventhComponent = () => {
     <footer className="footer">
       
       <div className="footer-social">
-      <a href="#" className="social-icon"><i className="fab fa-facebook"></i></a>
-<a href="#" className="social-icon"><i className="fab fa-linkedin"></i></a>
-<a href="#" className="social-icon"><i className="fab fa-twitter"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61563956750710" className="social-icon"><i className="fab fa-facebook"></i></a>
+<a href="https://www.linkedin.com/company/realscore-creditscore/" className="social-icon"><i className="fab fa-linkedin"></i></a>
+<a href="https://play.google.com/store/apps/details?id=com.loanunbox.realscore&hl=en" className="social-icon"><i className="fa-google-play"></i></a>
 
       </div>
       <div className="footer-bottom">
