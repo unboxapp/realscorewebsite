@@ -14,7 +14,7 @@ const SeventhComponent = () => {
 
       </div>
       <div className="footer-bottom">
-        <p>&copy; Unbox Technologies & LoanUnbox. All Rights Reserved.</p>
+        <p>&copy; Unbox Technologies. All Rights Reserved.</p>
         <p className="corporate-info">
           Corporate Office: 1st Floor, no 1483, Ursu Mandali Co-operative Society, 
           Thyagaraja Road, Near Agrahara circle, Mysuru, Karnataka, 570004
