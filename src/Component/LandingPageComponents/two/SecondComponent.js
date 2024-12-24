@@ -1,5 +1,6 @@
 import React from 'react';
 import './Pagetwo.css';
+import { Playstore } from './Playstore';
 
 const SecondComponent = () => {
   return (
@@ -37,6 +38,7 @@ const SecondComponent = () => {
             empowers you with a healthier credit standing, unlocking better
             opportunities for a brighter future.
           </p>
+          <Playstore/>
         </div>
       </div>
     </div>
