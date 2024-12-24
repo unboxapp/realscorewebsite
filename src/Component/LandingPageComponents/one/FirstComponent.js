@@ -1,10 +1,19 @@
 import React, { useState } from "react";
+import Modal from "react-modal";
 import "./Pageone.css";
 import { createOrder } from "../../../services/api"; // Ensure this API function is implemented correctly.
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreditScoreImage1 from './assets/300-650.png';
+import CreditScoreImage2 from './assets/650-700.png';
+import CreditScoreImage3 from './assets/700-750.png';
+import CreditScoreImage4 from './assets/750-800.png';
+import CreditScoreImage5 from './assets/800-900.png';
+
+
 
 // toast.configure();
+Modal.setAppElement("#root");
 
 const FirstComponent = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +26,8 @@ const FirstComponent = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentData, setPaymentData] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -112,6 +123,19 @@ const FirstComponent = () => {
           toast.success(
             "Payment Successful! Credit report will be emailed shortly."
           );
+
+          // Simulate fetching JSON data
+          const fetchedData = {
+            paymentId: response.razorpay_payment_id,
+            orderId: response.razorpay_order_id,
+            signature: response.razorpay_signature,
+            name: formData.fullName,
+            mobile: formData.mobileNumber,
+            pan: formData.pan,
+          };
+
+          setPaymentData(fetchedData);
+          setIsModalOpen(true); // Open the modal
         } catch (error) {
           console.error("Payment verification failed:", error);
           toast.error("Error verifying payment. Please contact support.");
@@ -131,6 +155,11 @@ const FirstComponent = () => {
     rzp.open();
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setPaymentData(null); // Clear payment data after closing modal
+  };
+
   return (
     <div>
       <div className="Topnav">
@@ -146,7 +175,7 @@ const FirstComponent = () => {
       <div className="vsep"></div>
 
       <div className="area">
-        <ul className="circles">
+      <ul className="circles">
           {Array(10)
             .fill(0)
             .map((_, index) => (
@@ -154,6 +183,7 @@ const FirstComponent = () => {
             ))}
         </ul>
         <div className="Pageone">
+          {/* Form */}
           <div className="HeadingLeft">
             <div className="heading1">
               <h1>
@@ -295,6 +325,136 @@ const FirstComponent = () => {
         </div>
       </div>
       <div className="vsep"></div>
+      {/* Modal for displaying JSON data */}
+      <Modal
+  isOpen={isModalOpen}
+  onRequestClose={closeModal}
+  contentLabel="Consumer Details"
+  className="modal"
+  overlayClassName="overlay"
+>
+<div className="meter">
+<img className="CreditScoreImage1" src={CreditScoreImage1} alt="Credit Score 300-650" />
+<img className="CreditScoreImage2" src={CreditScoreImage2} alt="Credit Score 300-650" />
+<img className="CreditScoreImage3" src={CreditScoreImage3} alt="Credit Score 300-650" />
+<img className="CreditScoreImage4" src={CreditScoreImage4} alt="Credit Score 300-650" />
+<img className="CreditScoreImage5" src={CreditScoreImage5} alt="Credit Score 300-650" />
+    <p>Credit Score: {paymentData?.creditScore || "No Data Available"}</p>
+  </div>
+
+  <div className="modal-header">
+    <h2>
+      Consumer Name: {paymentData?.consumerName || "No Data Available"}
+    </h2>
+  </div>
+
+  {paymentData ? (
+    <div className="modal-content">
+      <div className="columns-container">
+       
+        <div className="column">
+          <div className="details-row">
+            <span className="label">Number of Accounts:</span>
+            <span className="value">{paymentData?.Accounts || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Number of Open Accounts:</span>
+            <span className="value">{paymentData?.openAccounts || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Number of Past Due Accounts:</span>
+            <span className="value">{paymentData?.pastDueAccounts || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Number of Write-off Accounts:</span>
+            <span className="value">{paymentData?.writeOffAccounts || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Number of Zero Balance Accounts:</span>
+            <span className="value">{paymentData?.zeroBalanceAccounts || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Most Severe Status &lt; 24 Months:</span>
+            <span className="value">{paymentData?.severeStatus || "-"}</span>
+          </div>
+        </div>
+
+       
+        <div className="column">
+         
+          <div className="details-row">
+            <span className="label">Total Balance Amount:</span>
+            <span className="value">{paymentData?.totalBalance || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Total Past Due Amount:</span>
+            <span className="value">{paymentData?.pastDueAmount || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Total High Credit:</span>
+            <span className="value">{paymentData?.highCredit || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Total Sanction Amount:</span>
+            <span className="value">{paymentData?.sanctionAmount || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Total Monthly Payment Amount:</span>
+            <span className="value">{paymentData?.monthlyPayment || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Average Open Balance:</span>
+            <span className="value">{paymentData?.averageOpenBalance || "-"}</span>
+          </div>
+        </div>
+
+    
+        <div className="column">
+          
+          <div className="details-row">
+            <span className="label">Recent Account:</span>
+            <span className="value">{paymentData?.recentAccount || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Oldest Account:</span>
+            <span className="value">{paymentData?.oldestAccount || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Loan Against Bank:</span>
+            <span className="value">{paymentData?.loanAgainstBank || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Total Credit Limit:</span>
+            <span className="value">{paymentData?.totalCreditLimit || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Single Highest Credit:</span>
+            <span className="value">{paymentData?.highestCredit || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Single Highest Sanction Amount:</span>
+            <span className="value">{paymentData?.highestSanctionAmount || "-"}</span>
+          </div>
+          <div className="details-row">
+            <span className="label">Single Highest Balance:</span>
+            <span className="value">{paymentData?.highestBalance || "-"}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <p>No payment data available.</p>
+  )}
+
+  <div className="modal-footer">
+    <button onClick={closeModal}>Close</button>
+    <button onClick={closeModal}>Get Detailed Report</button>
+  </div>
+</Modal>
+
+
+
+
     </div>
   );
 };
