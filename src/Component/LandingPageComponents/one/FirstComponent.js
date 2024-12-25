@@ -19,7 +19,7 @@ const FirstComponent = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     pan: "",
-    dob: "",
+   
     mobileNumber: "",
     terms: false,
   });
@@ -29,37 +29,70 @@ const FirstComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentData, setPaymentData] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const creditScore=675;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-
-    // Clear error for the current field
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+  
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.fullName.trim()) newErrors.fullName = "Full Name is required.";
+  
+    // Validate Full Name: No numbers allowed and must have at least 2 words
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full Name is required.";
+    } else if (!/^[A-Za-z\s]+$/.test(formData.fullName)) {
+      newErrors.fullName = "Full Name must not contain numbers.";
+    } else if (formData.fullName.trim().split(" ").length < 2) {
+      newErrors.fullName = "Full Name must contain at least 2 words.";
+    }
+  
+    // Validate PAN: Auto-capitalize, max length of 10
     if (!formData.pan.trim()) {
       newErrors.pan = "PAN Number is required.";
     } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
       newErrors.pan = "Enter a valid PAN Number.";
     }
-    if (!formData.dob.trim()) newErrors.dob = "Date of Birth is required.";
+  
+    // Validate Date of Birth
+    
+  
+    // Validate Mobile Number: Must be 10 digits, no alphabets allowed
     if (!formData.mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile Number is required.";
-    } else if (formData.mobileNumber.trim().length !== 10) {
-      newErrors.mobileNumber = "Mobile Number must be 10 digits.";
+    } else if (!/^\d{10}$/.test(formData.mobileNumber.trim())) {
+      newErrors.mobileNumber = "Mobile Number must be exactly 10 digits.";
     }
+  
+    // Validate Terms Agreement
     if (!formData.terms) newErrors.terms = "You must agree to the terms.";
-
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
+  // Update Handlers for Constraints
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+  
+    if (name === "fullName") {
+      // Prevent typing numbers in the fullName field
+      if (/^[A-Za-z\s]*$/.test(value)) {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+      }
+    } else if (name === "pan") {
+      // Auto-capitalize PAN and limit length to 10
+      if (value.length <= 10) {
+        setFormData((prev) => ({ ...prev, [name]: value.toUpperCase() }));
+      }
+    } else if (name === "mobileNumber") {
+      // Prevent typing alphabets in mobileNumber field
+      if (/^\d*$/.test(value)) {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+  
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -160,17 +193,31 @@ const FirstComponent = () => {
     setPaymentData(null); // Clear payment data after closing modal
   };
 
+  
+  const getImageAndColor = () => {
+    if (creditScore >= 300 && creditScore <= 650) {
+      return { image: CreditScoreImage1, color: "red" };
+    } else if (creditScore >= 651 && creditScore <= 700) {
+      return { image: CreditScoreImage2, color: "orange" };
+    } else if (creditScore >= 701 && creditScore <= 750) {
+      return { image: CreditScoreImage3, color: "yellow" };
+    } else if (creditScore >= 751 && creditScore <= 800) {
+      return { image: CreditScoreImage4, color: "lightgreen" };
+    } else if (creditScore >= 801 && creditScore <= 900) {
+      return { image: CreditScoreImage5, color: "darkgreen" };
+    } else {
+      return { image: null, color: "black" }; // Default fallback
+    }
+  };
+  const { image, color } = getImageAndColor();
+
   return (
     <div>
       <div className="Topnav">
         <div className="logo">
-          <img src="../image/RealScoreLogo.png" alt="Logo" height="60px" />
+          <img src="../image/RealScoreLogo.png" alt="Logo" height="40px"  />
         </div>
-        <div className="signin">
-          <button>
-            <h3>Sign In</h3>
-          </button>
-        </div>
+       
       </div>
       <div className="vsep"></div>
 
@@ -259,19 +306,7 @@ const FirstComponent = () => {
                   {errors.pan && <p className="error">{errors.pan}</p>}
                 </div>
 
-                <div className="input-container">
-                  <label htmlFor="dob">Date of Birth</label>
-                  <input
-                    className="dob"
-                    type="date"
-                    id="dob"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleInputChange}
-                    aria-label="Enter your date of birth"
-                  />
-                  {errors.dob && <p className="error">{errors.dob}</p>}
-                </div>
+                
 
                 <div className="input-container">
                   <label htmlFor="mobile-number">Mobile Number</label>
@@ -312,6 +347,7 @@ const FirstComponent = () => {
                 </div>
 
                 <button
+                
                   type="submit"
                   onClick={handlePayment}
                   disabled={loading}
@@ -333,21 +369,21 @@ const FirstComponent = () => {
   className="modal"
   overlayClassName="overlay"
 >
+  
 <div className="meter">
-<img className="CreditScoreImage1" src={CreditScoreImage1} alt="Credit Score 300-650" />
-<img className="CreditScoreImage2" src={CreditScoreImage2} alt="Credit Score 300-650" />
-<img className="CreditScoreImage3" src={CreditScoreImage3} alt="Credit Score 300-650" />
-<img className="CreditScoreImage4" src={CreditScoreImage4} alt="Credit Score 300-650" />
-<img className="CreditScoreImage5" src={CreditScoreImage5} alt="Credit Score 300-650" />
-    <p>Credit Score: {paymentData?.creditScore || "No Data Available"}</p>
+<span 
+    className="close-icon" 
+    onClick={closeModal} 
+    title="Close"
+  >
+    &times;
+  </span>
+<img className="CreditScoreImage1" src={getImageAndColor(creditScore).image}  />
+    <p 
+    style={{ color: getImageAndColor(creditScore).color }}
+    className="DynamicCreditScore"> {creditScore || "No Data Available"}</p>
   </div>
-
-  <div className="modal-header">
-    <h2>
-      Consumer Name: {paymentData?.consumerName || "No Data Available"}
-    </h2>
-  </div>
-
+ 
   {paymentData ? (
     <div className="modal-content">
       <div className="columns-container">
@@ -447,8 +483,9 @@ const FirstComponent = () => {
   )}
 
   <div className="modal-footer">
-    <button onClick={closeModal}>Close</button>
-    <button onClick={closeModal}>Get Detailed Report</button>
+    {/* <button onClick={closeModal}>Close</button> */}
+    <button className="ModalButton"
+    onClick={closeModal}>Get Detailed Report</button>
   </div>
 </Modal>
 

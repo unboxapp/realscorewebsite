@@ -163,11 +163,12 @@ body {
 
 /* Input Fields */
 label {
-    font-size: 14px;
+    font-size: 13px;
     color: whitesmoke;
     margin-bottom: 3px;
     display: block;
     text-align: left;
+    font-weight: 600;
 }
 
 input[type="text"],
@@ -229,7 +230,7 @@ input[type="tel"]:focus {
 }
 
 /* Submit Button */
-button {
+button{
     width: 100%;
     background-color: #fbfbfc;
     color: #03052d;
@@ -267,21 +268,9 @@ button:hover {
 }
 .logo{
     margin-left:60px ;
+    margin-top: 12px;
     
 }
-.signin{
-    margin-top: 8px;
-    margin-right: 60px;
-}
-.signin button {
-    background-color: whitesmoke;
-    border-radius: 16px;
-    border: 2px solid #2128be; /* Solid blue border of 2px */
-    width: 100px;
-    color: #2128be;
-    font-size: 12px;
-    
-  }
 
 .Pageone{
     display: flex;
@@ -430,12 +419,14 @@ button:hover {
     gap: 15px;
     margin-top: 20px;
   }
-  
-  button {
+  .ModalButton{
+    background-color: #acb3ff;
+  }
+  /* button {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    background-color: #ff4444; /* Vibrant red */
+    background-color: #060868; 
     color: white;
     font-size: 14px;
     cursor: pointer;
@@ -444,7 +435,7 @@ button:hover {
   
   button:hover {
     background-color: #d7300b;
-  }
+  } */
 
   .meter {
     display: flex; /* Use flexbox to center the images */
@@ -483,5 +474,24 @@ button:hover {
   
   .CreditScoreImage5 {
     z-index: 5; /* Highest stacking order */
+  }
+  .DynamicCreditScore{
+    font-size: 35px;
+    font-weight: 600;
+    /* margin-bottom: 10px; */
+  }
+  .close-icon {
+    position: absolute;
+    top: -230px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .close-icon:hover {
+    color: red;
   }
   
