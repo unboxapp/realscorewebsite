@@ -34,7 +34,7 @@ const FirstComponent = () => {
   const [paymentData, setPaymentData] = useState(null);
   const [data, setData] = useState(null); 
 
-  const creditScore=675;
+  
 
   
 
@@ -210,21 +210,21 @@ const FirstComponent = () => {
         setData(paymentData);
 }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const jsonData = await getReportJson(); // Ensure path is correct
-        if (!jsonData.ok) throw new Error("Failed to load JSON");
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error loading JSON:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const jsonData = await getReportJson(); // Ensure path is correct
+  //       if (!jsonData.ok) throw new Error("Failed to load JSON");
+  //       setData(jsonData);
+  //     } catch (error) {
+  //       console.error("Error loading JSON:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const downloadPDF = () => {
-    if (!data) {
+    if (!paymentData) {
       alert("Data not loaded. Please try again later.");
       return;
     }
@@ -244,7 +244,7 @@ const FirstComponent = () => {
       enquiries,
       enquirySummary,
       recentActivities,
-    } = data.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
+    } = paymentData.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
   
     // Title and Header
     doc.setFontSize(18);
@@ -406,6 +406,7 @@ const FirstComponent = () => {
     doc.save("Equifax_Credit_Report.pdf");
   };
   
+  const creditScore=paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.scoreDetails[0].value;
   
   const getImageAndColor = () => {
     if (creditScore >= 300 && creditScore <= 650) {
