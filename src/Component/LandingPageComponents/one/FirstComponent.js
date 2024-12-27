@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./Pageone.css";
-import { createOrder } from "../../../services/api"; // Ensure this API function is implemented correctly.
+import { createOrder, getReportJson, saveCreditReportJson } from "../../../services/api"; // Ensure this API function is implemented correctly.
+import { creditReportFetch } from "../../../services/api"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditScoreImage1 from './assets/300-650.png';
@@ -9,7 +10,10 @@ import CreditScoreImage2 from './assets/650-700.png';
 import CreditScoreImage3 from './assets/700-750.png';
 import CreditScoreImage4 from './assets/750-800.png';
 import CreditScoreImage5 from './assets/800-900.png';
-
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import { saveAs } from "file-saver";
+import  axios  from "axios";
 
 
 // toast.configure();
@@ -28,6 +32,7 @@ const FirstComponent = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentData, setPaymentData] = useState(null);
+  const [data, setData] = useState(null); 
 
   const creditScore=675;
 
@@ -143,56 +148,264 @@ const FirstComponent = () => {
     });
   };
 
-  const openRazorpay = (order) => {
-    const options = {
-      amount: order.amount,
-      currency: order.currency,
-      name: "RealScore",
-      description: "Credit Report Fee",
-      order_id: order.id,
-      handler: async (response) => {
-        try {
-          console.log("Payment successful:", response);
-          toast.success(
-            "Payment Successful! Credit report will be emailed shortly."
-          );
+ const openRazorpay = (order) => {
+  const options = {
+    amount: order.amount,
+    currency: order.currency,
+    name: "RealScore",
+    description: "Credit Report Fee",
+    order_id: order.id,
+    handler: async (response) => {
+      try {
+        console.log("Payment successful:", response);
+        
+       
+        const body = {
+          refid: "324817",
+          name: formData.fullName,
+          mobile: formData.mobileNumber,
+          document_id: formData.pan,
+        };
 
-          // Simulate fetching JSON data
-          const fetchedData = {
-            paymentId: response.razorpay_payment_id,
-            orderId: response.razorpay_order_id,
-            signature: response.razorpay_signature,
-            name: formData.fullName,
-            mobile: formData.mobileNumber,
-            pan: formData.pan,
-          };
+        const creditReport = await creditReportFetch(); 
+        
+        await saveCreditReportJson(creditReport);
 
-          setPaymentData(fetchedData);
-          setIsModalOpen(true); // Open the modal
-        } catch (error) {
-          console.error("Payment verification failed:", error);
-          toast.error("Error verifying payment. Please contact support.");
-        }
-      },
-      prefill: {
-        name: formData.fullName,
-        email: "user@example.com", // Replace with dynamic user data if available
-        contact: formData.mobileNumber,
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+        // const getjson = await getReportJson(); 
+
+        // setPaymentData(getjson);
+
+        
+        console.log("Credit report saved successfully:", creditReport);
+        setIsModalOpen(true);
+
+      } catch (error) {
+        console.error("Payment verification failed:", error);
+      }
+    },
+    prefill: {
+      name: formData.fullName,
+      contact: formData.mobileNumber,
+    },
+    theme: {
+      color: "#3399cc",
+    },
   };
 
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
   const closeModal = () => {
     setIsModalOpen(false);
     setPaymentData(null); // Clear payment data after closing modal
   };
 
+  useEffect(() => {
+    axios.get('http://localhost:5000/get-report-json')
+        .then((response) => setPaymentData(response.data))
+        .catch((error) => console.error("Error fetching credit report:", error));
+
+        console.log(paymentData);
+        setData(paymentData);
+}, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const jsonData = await getReportJson(); // Ensure path is correct
+        if (!jsonData.ok) throw new Error("Failed to load JSON");
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error loading JSON:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const downloadPDF = () => {
+    if (!data) {
+      alert("Data not loaded. Please try again later.");
+      return;
+    }
+  
+    const doc = new jsPDF();
+  
+    const {
+      iDAndContactInfo: {
+        personalInfo,
+        identityInfo,
+        addressInfo,
+        phoneInfo,
+        emailAddressInfo,
+      },
+      retailAccountsSummary,
+      scoreDetails,
+      enquiries,
+      enquirySummary,
+      recentActivities,
+    } = data.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
+  
+    // Title and Header
+    doc.setFontSize(18);
+    doc.text("Equifax Credit Report with Score", 105, 15, { align: "center" });
+    doc.setFontSize(10);
+    doc.setDrawColor(0);
+    doc.line(10, 20, 200, 20);
+    doc.text("Date: 29-07-2022", 160, 25);
+    doc.text(`Report Order No.: ${data.reference_id}`, 20, 25);
+    doc.text("Time: 00:33:12", 160, 30);
+    doc.line(10, 32, 200, 32);
+  
+    let yPosition = 40; // Start position for the content
+  
+    // Personal Information
+    doc.setFontSize(14);
+    doc.text(`Consumer Name: ${personalInfo.name.fullName}`, 15, yPosition);
+    yPosition += 10;
+    doc.autoTable({
+      startY: yPosition,
+      head: [["Personal Info", "Identification", "Contact Details"]],
+      body: [
+        [
+          `Previous Name: ${personalInfo.previousName || "--"}\nAlias Name: ${personalInfo.aliasName || "--"}\nDOB: ${personalInfo.dateOfBirth}\nAge: ${personalInfo.age.age} Years\nGender: ${personalInfo.gender}\nTotal Income: ${personalInfo.totalIncome}\nOccupation: ${personalInfo.occupation}`,
+          `PAN: ${identityInfo.pANId[0]?.idNumber || "--"}\nVoter ID: ${identityInfo.voterId || "--"}\nPassport: ${identityInfo.passport || "--"}\nUID: ${identityInfo.uID || "--"}\nDriver's License: ${identityInfo.driversLicense || "--"}\nRation Card: ${identityInfo.rationCard || "--"}\nPhoto Credit Card: ${identityInfo.photoCreditCard || "--"}\nOther ID: ${identityInfo.otherId[0]?.idNumber || "--"}`,
+          `Home: ${phoneInfo[0]?.number || "--"}\nOffice: ${phoneInfo[1]?.number || "--"}\nMobile: ${phoneInfo[2]?.number || "--"}\nAlt. Home/Other No.: ${phoneInfo[3]?.number || "--"}\nAlt. Office: ${phoneInfo[4]?.number || "--"}\nAlt. Mobile: ${phoneInfo[5]?.number || "--"}\nEmail: ${emailAddressInfo[0]?.emailAddress || "--"}`,
+        ],
+      ],
+      styles: { fontSize: 8, cellPadding: 4 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 15;
+  
+    // Address Information
+    doc.setFontSize(14);
+    doc.text("Consumer Address:", 15, yPosition);
+    yPosition += 5;
+    doc.autoTable({
+      startY: yPosition,
+      head: [["Type", "Address", "State", "Postal Code", "Last Reported Date"]],
+      body: addressInfo.map((address) => [
+        address.type,
+        address.address,
+        address.state,
+        address.postal,
+        address.reportedDate,
+      ]),
+      styles: { fontSize: 8, cellPadding: 3 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 10;
+  
+    // Score Details
+    doc.setFontSize(14);
+    doc.text("Equifax Score(s):", 15, yPosition);
+    yPosition += 5.7;
+    doc.autoTable({
+      startY: yPosition,
+      head: [["Score Name", "Score", "Scoring Elements"]],
+      body: scoreDetails.map((score) => [
+        score.name,
+        score.value,
+        score.scoringElements.map((element) => element.description).join(", "),
+      ]),
+      styles: { fontSize: 8, cellPadding: 4 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 15;
+  
+    // Recent Activities
+    doc.setFontSize(14);
+    doc.text("Recent Activity:", 15, yPosition);
+    yPosition += 5;
+    doc.autoTable({
+      startY: yPosition,
+      head: [
+        [
+          {
+            content: "Recent Activity (last 90 days)",
+            colSpan: 4,
+            styles: { halign: "center", fontSize: 8, fontStyle: "bold" },
+          },
+        ],
+      ],
+      body: [
+        [
+          `Total Inquiries: ${recentActivities.totalInquiries}`,
+          `Accounts Opened: ${recentActivities.accountsOpened}`,
+          `Accounts Updated: ${recentActivities.accountsUpdated}`,
+          `Accounts Delinquent: ${recentActivities.accountsDeliquent}`,
+        ],
+      ],
+      styles: { fontSize: 8, cellPadding: 4 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 16;
+  
+    // Retail Account Summary
+    doc.setFontSize(14);
+    doc.autoTable({
+      startY: yPosition,
+      head: [
+        [
+          {
+            content: "Credit Report Summary",
+            colSpan: 3,
+            styles: { halign: "center", fontSize: 8, fontStyle: "bold" },
+          },
+        ],
+      ],
+      body: [
+        [
+          `Number of Accounts: ${retailAccountsSummary.noOfAccounts}\nNumber of Open Accounts: ${retailAccountsSummary.noOfActiveAccounts}\nNumber of Past Due Accounts: ${retailAccountsSummary.noOfPastDueAccounts}\nNumber of Zero Balance Accounts: ${retailAccountsSummary.noOfZeroBalanceAccounts}\nMost Severe Status < 24 Months: ${retailAccountsSummary.mostSevereStatusWithIn24Months}`,
+          `Total Balance Amount: ${retailAccountsSummary.totalBalanceAmount}\nTotal Past Due Amount: ${retailAccountsSummary.totalPastDue}\nTotal High Credit: ${retailAccountsSummary.totalHighCredit}\nTotal Sanction Amount: ${retailAccountsSummary.totalSanctionAmount}\nAverage Open Balance: ${retailAccountsSummary.averageOpenBalance}`,
+          `Recent Account: ${retailAccountsSummary.recentAccount}\nOldest Account: ${retailAccountsSummary.oldestAccount}\nTotal Credit Limit: ${retailAccountsSummary.totalCreditLimit}\nSingle Highest Credit: ${retailAccountsSummary.singleHighestCredit}\nSingle Highest Sanction Amount: ${retailAccountsSummary.singleHighestSanctionAmount}\nSingle Highest Balance: ${retailAccountsSummary.singleHighestBalance}`,
+        ],
+      ],
+      styles: { fontSize: 7, cellPadding: 4 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 15;
+  
+    // Enquiry Summary
+    doc.setFontSize(14);
+    doc.text("Enquiry Summary:", 15, yPosition);
+    yPosition += 5;
+    doc.autoTable({
+      startY: yPosition,
+      head: [
+        ["Purpose", "Total", "Past 30 Days", "Past 12 months", "Past 24 Months", "Recent"],
+      ],
+      body: [
+        [
+          `${enquirySummary.purpose}`,
+          `${enquirySummary.total}`,
+          `${enquirySummary.past30Days}`,
+          `${enquirySummary.past12Months}`,
+          `${enquirySummary.past24Months}`,
+          `${enquirySummary.recent}`,
+        ],
+      ],
+      styles: { fontSize: 8, cellPadding: 4 },
+    });
+    yPosition = doc.autoTable.previous.finalY + 15;
+  
+    // Enquiries
+    doc.setFontSize(14);
+    doc.text("Enquiries:", 15, yPosition);
+    yPosition += 5;
+    doc.autoTable({
+      startY: yPosition,
+      head: [["Institution", "Date", "Time", "Purpose", "Amount"]],
+      body: enquiries.map((enquiry) => [
+        enquiry.institution,
+        enquiry.date,
+        enquiry.time,
+        enquiry.requestPurpose,
+        enquiry.amount,
+      ]),
+      styles: { fontSize: 8, cellPadding: 4 },
+    });
+  
+    // Save PDF
+    doc.save("Equifax_Credit_Report.pdf");
+  };
+  
   
   const getImageAndColor = () => {
     if (creditScore >= 300 && creditScore <= 650) {
@@ -369,6 +582,7 @@ const FirstComponent = () => {
   className="modal"
   overlayClassName="overlay"
 >
+
   
 <div className="meter">
 <span 
@@ -391,27 +605,27 @@ const FirstComponent = () => {
         <div className="column">
           <div className="details-row">
             <span className="label">Number of Accounts:</span>
-            <span className="value">{paymentData?.Accounts || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Open Accounts:</span>
-            <span className="value">{paymentData?.openAccounts || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.accountsOpened || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Past Due Accounts:</span>
-            <span className="value">{paymentData?.pastDueAccounts || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfPastDueAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Write-off Accounts:</span>
-            <span className="value">{paymentData?.writeOffAccounts || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfWriteOffs || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Zero Balance Accounts:</span>
-            <span className="value">{paymentData?.zeroBalanceAccounts || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfZeroBalanceAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Most Severe Status &lt; 24 Months:</span>
-            <span className="value">{paymentData?.severeStatus || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.mostSevereStatusWithIn24Months || "-"}</span>
           </div>
         </div>
 
@@ -420,27 +634,27 @@ const FirstComponent = () => {
          
           <div className="details-row">
             <span className="label">Total Balance Amount:</span>
-            <span className="value">{paymentData?.totalBalance || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalBalanceAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Past Due Amount:</span>
-            <span className="value">{paymentData?.pastDueAmount || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalPastDue || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total High Credit:</span>
-            <span className="value">{paymentData?.highCredit || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.highestCredit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Sanction Amount:</span>
-            <span className="value">{paymentData?.sanctionAmount || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalSanctionAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Monthly Payment Amount:</span>
-            <span className="value">{paymentData?.monthlyPayment || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalMonthlyPaymentAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Average Open Balance:</span>
-            <span className="value">{paymentData?.averageOpenBalance || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.averageOpenBalance || "-"}</span>
           </div>
         </div>
 
@@ -449,31 +663,27 @@ const FirstComponent = () => {
           
           <div className="details-row">
             <span className="label">Recent Account:</span>
-            <span className="value">{paymentData?.recentAccount || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.recentAccount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Oldest Account:</span>
-            <span className="value">{paymentData?.oldestAccount || "-"}</span>
-          </div>
-          <div className="details-row">
-            <span className="label">Loan Against Bank:</span>
-            <span className="value">{paymentData?.loanAgainstBank || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.oldestAccount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Credit Limit:</span>
-            <span className="value">{paymentData?.totalCreditLimit || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalCreditLimit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Credit:</span>
-            <span className="value">{paymentData?.highestCredit || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestCredit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Sanction Amount:</span>
-            <span className="value">{paymentData?.highestSanctionAmount || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestSanctionAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Balance:</span>
-            <span className="value">{paymentData?.highestBalance || "-"}</span>
+            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestBalance || "-"}</span>
           </div>
         </div>
       </div>
@@ -485,7 +695,7 @@ const FirstComponent = () => {
   <div className="modal-footer">
     {/* <button onClick={closeModal}>Close</button> */}
     <button className="ModalButton"
-    onClick={closeModal}>Get Detailed Report</button>
+    onClick={downloadPDF}>Get Detailed Report</button>
   </div>
 </Modal>
 

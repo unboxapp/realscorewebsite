@@ -371,6 +371,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    font-size: 14px;
   }
   
   .columns-container {
@@ -494,4 +495,5 @@ button:hover {
   .close-icon:hover {
     color: red;
   }
+  
   
