@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Pagesix.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLessThan, faGreaterThan } from '@fortawesome/free-solid-svg-icons';
+
 
 const CreditScoreMeter = () => {
   const [score, setScore] = useState(750);
@@ -14,7 +17,6 @@ const CreditScoreMeter = () => {
       angle: -90,
       descriptions: [
         "You might face challenges getting approved for credit.",
-        "Consider working on your credit health for better opportunities.",
       ],
     },
     {
@@ -23,7 +25,6 @@ const CreditScoreMeter = () => {
       color: "#FFA000",
       angle: -45,
       descriptions: [
-        "You’re doing okay, but there’s room for improvement.",
         "Lenders might offer you credit with slightly higher interest rates.",
       ],
     },
@@ -33,7 +34,6 @@ const CreditScoreMeter = () => {
       color: "#FFC107",
       angle: 0,
       descriptions: [
-        "You have a good score. Keep up the responsible behavior!",
         "Most lenders will likely offer you credit on favorable terms.",
       ],
     },
@@ -44,7 +44,6 @@ const CreditScoreMeter = () => {
       angle: 45,
       descriptions: [
         "Your credit score is very good! You’re eligible for great terms.",
-        "Lenders view you as a reliable borrower.",
       ],
     },
     {
@@ -54,7 +53,6 @@ const CreditScoreMeter = () => {
       angle: 90,
       descriptions: [
         "You have an excellent credit score! Keep up the great work.",
-        "You’re in the top tier of credit scores—lenders love this.",
       ],
     },
   ];
@@ -89,7 +87,7 @@ const CreditScoreMeter = () => {
         }
         return prevScore + direction * 50;
       });
-    }, 3000); // 3 seconds interval
+    }, 2000); // 3 seconds interval
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [direction]);
@@ -124,25 +122,27 @@ const CreditScoreMeter = () => {
             </h2>
             <p>{currentDescription || "Loading description..."}</p>
             <div className="buttons-container">
-              <button
-                className="btn"
-                onClick={() => {
-                  setDirection(-1);
-                  setScore((prevScore) => Math.max(300, prevScore - 50));
-                }}
-              >
-                Decrease Score
-              </button>
-              <button
-                className="btn"
-                onClick={() => {
-                  setDirection(1);
-                  setScore((prevScore) => Math.min(900, prevScore + 50));
-                }}
-              >
-                Increase Score
-              </button>
-            </div>
+  <button
+    className="btn"
+    onClick={() => {
+      setDirection(-1);
+      setScore((prevScore) => Math.max(300, prevScore - 50));
+    }}
+  >
+    <FontAwesomeIcon icon={faLessThan} /> {/* Left Arrow */}
+  </button>
+  <button
+    className="btn"
+    onClick={() => {
+      setDirection(1);
+      setScore((prevScore) => Math.min(900, prevScore + 50));
+    }}
+  >
+    <FontAwesomeIcon icon={faGreaterThan} /> {/* Right Arrow */}
+  </button>
+</div>
+
+
           </div>
         </div>
       </div>
