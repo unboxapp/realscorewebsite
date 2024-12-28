@@ -35,7 +35,7 @@ const FifthComponent = () => {
       <div className="containerf">
         {/* Heading */}
         <h1 className="main-headingf">
-          Factors Affecting <span className="highlight">Credit Score</span>
+            Factors Affecting <span className="highlight">Credit Score</span>
         </h1>
 
         <div className="content-wrapperf">
