@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import "./Pageone.css";
-import { createOrder, getReportJson, saveCreditReportJson } from "../../../services/api"; // Ensure this API function is implemented correctly.
-import { creditReportFetch } from "../../../services/api"; 
+import { createOrder, getReportJson, saveCreditReportJson,creditReportFetch, saveCustomerDetails } from "../../../services/api"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditScoreImage1 from './assets/300-650.png';
@@ -12,8 +11,6 @@ import CreditScoreImage4 from './assets/750-800.png';
 import CreditScoreImage5 from './assets/800-900.png';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import { saveAs } from "file-saver";
-import  axios  from "axios";
 
 
 // toast.configure();
@@ -31,12 +28,9 @@ const FirstComponent = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [paymentData, setPaymentData] = useState(null);
-  const [data, setData] = useState(null); 
+  const [reportData, setreportData] = useState(null);
+  //const [data, setData] = useState(null); 
 
-  
-
-  
 
   const validateForm = () => {
     const newErrors = {};
@@ -57,9 +51,6 @@ const FirstComponent = () => {
       newErrors.pan = "Enter a valid PAN Number.";
     }
   
-    // Validate Date of Birth
-    
-  
     // Validate Mobile Number: Must be 10 digits, no alphabets allowed
     if (!formData.mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile Number is required.";
@@ -68,7 +59,7 @@ const FirstComponent = () => {
     }
   
     // Validate Terms Agreement
-    if (!formData.terms) newErrors.terms = "You must agree to the terms.";
+    if (!formData.terms) newErrors.terms = "You must agree to the Terms and Conditions of Real Score.";
   
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -98,6 +89,10 @@ const FirstComponent = () => {
     }
   };
   
+  const generateRandomNumber = () => {
+    const number = Math.floor(100000 + Math.random() * 900000);
+    return number;
+  };
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -114,7 +109,7 @@ const FirstComponent = () => {
       const order = await createOrder({
         amount: 1, // Amount in paisa
         currency: "INR",
-        receipt: "receipt#1",
+        receipt: "website_receipt",
       });
 
       // Load Razorpay script
@@ -161,22 +156,21 @@ const FirstComponent = () => {
         
        
         const body = {
-          refid: "324817",
+          refid: generateRandomNumber(),
           name: formData.fullName,
           mobile: formData.mobileNumber,
           document_id: formData.pan,
         };
 
         const creditReport = await creditReportFetch(); 
-        
+        await saveCustomerDetails({
+          body, credit_report: creditReport
+        })
         await saveCreditReportJson(creditReport);
-
-
-        // const getjson = await getReportJson(); 
-
-        // setPaymentData(getjson);
-
+        const tempData=await getReportJson();
+        setreportData(tempData);
         
+    
         console.log("Credit report saved successfully:", creditReport);
         setIsModalOpen(true);
 
@@ -198,33 +192,11 @@ const FirstComponent = () => {
 };
   const closeModal = () => {
     setIsModalOpen(false);
-    setPaymentData(null); // Clear payment data after closing modal
+    setreportData(null); // Clear payment data after closing modal
   };
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/get-report-json')
-        .then((response) => setPaymentData(response.data))
-        .catch((error) => console.error("Error fetching credit report:", error));
-
-        console.log(paymentData);
-        setData(paymentData);
-}, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const jsonData = await getReportJson(); // Ensure path is correct
-  //       if (!jsonData.ok) throw new Error("Failed to load JSON");
-  //       setData(jsonData);
-  //     } catch (error) {
-  //       console.error("Error loading JSON:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   const downloadPDF = () => {
-    if (!paymentData) {
+    if (!reportData) {
       alert("Data not loaded. Please try again later.");
       return;
     }
@@ -244,17 +216,16 @@ const FirstComponent = () => {
       enquiries,
       enquirySummary,
       recentActivities,
-    } = paymentData.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
-  
+    } = reportData.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
+    
     // Title and Header
     doc.setFontSize(18);
-    doc.text("Equifax Credit Report with Score", 105, 15, { align: "center" });
+    doc.text("Equifax Credit Report", 105, 15, { align: "center" });
     doc.setFontSize(10);
     doc.setDrawColor(0);
     doc.line(10, 20, 200, 20);
-    doc.text("Date: 29-07-2022", 160, 25);
-    doc.text(`Report Order No.: ${data.reference_id}`, 20, 25);
-    doc.text("Time: 00:33:12", 160, 30);
+    doc.text(`${Date().toLocaleUpperCase()}`, 95, 25);
+    doc.text(`Report Order No.: ${reportData.reference_id}`, 10, 25);
     doc.line(10, 32, 200, 32);
   
     let yPosition = 40; // Start position for the content
@@ -262,7 +233,7 @@ const FirstComponent = () => {
     // Personal Information
     doc.setFontSize(14);
     doc.text(`Consumer Name: ${personalInfo.name.fullName}`, 15, yPosition);
-    yPosition += 10;
+    yPosition += 5;
     doc.autoTable({
       startY: yPosition,
       head: [["Personal Info", "Identification", "Contact Details"]],
@@ -406,24 +377,24 @@ const FirstComponent = () => {
     doc.save("Equifax_Credit_Report.pdf");
   };
   
-  const creditScore=paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.scoreDetails[0].value;
+  const creditScore=reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.scoreDetails[0].value;
   
   const getImageAndColor = () => {
     if (creditScore >= 300 && creditScore <= 650) {
-      return { image: CreditScoreImage1, color: "red" };
+      return { image: CreditScoreImage1, color: "#e7554a" };
     } else if (creditScore >= 651 && creditScore <= 700) {
-      return { image: CreditScoreImage2, color: "orange" };
+      return { image: CreditScoreImage2, color: "#f59d33" };
     } else if (creditScore >= 701 && creditScore <= 750) {
-      return { image: CreditScoreImage3, color: "yellow" };
+      return { image: CreditScoreImage3, color: "#e3b53e" };
     } else if (creditScore >= 751 && creditScore <= 800) {
-      return { image: CreditScoreImage4, color: "lightgreen" };
+      return { image: CreditScoreImage4, color: "#0b8c4c" };
     } else if (creditScore >= 801 && creditScore <= 900) {
-      return { image: CreditScoreImage5, color: "darkgreen" };
+      return { image: CreditScoreImage5, color: "#075a31" };
     } else {
       return { image: null, color: "black" }; // Default fallback
     }
   };
-  const { image, color } = getImageAndColor();
+  
 
   return (
     <div>
@@ -584,7 +555,7 @@ const FirstComponent = () => {
   overlayClassName="overlay"
 >
 
-  
+<h1>Credit Report Summary</h1>  
 <div className="meter">
 <span 
     className="close-icon" 
@@ -599,34 +570,34 @@ const FirstComponent = () => {
     className="DynamicCreditScore"> {creditScore || "No Data Available"}</p>
   </div>
  
-  {paymentData ? (
+  {reportData ? (
     <div className="modal-content">
       <div className="columns-container">
        
         <div className="column">
           <div className="details-row">
             <span className="label">Number of Accounts:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfAccounts || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Open Accounts:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.accountsOpened || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.accountsOpened || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Past Due Accounts:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfPastDueAccounts || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfPastDueAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Write-off Accounts:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfWriteOffs || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfWriteOffs || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Number of Zero Balance Accounts:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfZeroBalanceAccounts || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.noOfZeroBalanceAccounts || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Most Severe Status &lt; 24 Months:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.mostSevereStatusWithIn24Months || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.mostSevereStatusWithIn24Months || "-"}</span>
           </div>
         </div>
 
@@ -635,27 +606,27 @@ const FirstComponent = () => {
          
           <div className="details-row">
             <span className="label">Total Balance Amount:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalBalanceAmount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalBalanceAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Past Due Amount:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalPastDue || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalPastDue || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total High Credit:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.highestCredit || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.highestCredit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Sanction Amount:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalSanctionAmount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalSanctionAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Monthly Payment Amount:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalMonthlyPaymentAmount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalMonthlyPaymentAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Average Open Balance:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.averageOpenBalance || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.averageOpenBalance || "-"}</span>
           </div>
         </div>
 
@@ -664,27 +635,27 @@ const FirstComponent = () => {
           
           <div className="details-row">
             <span className="label">Recent Account:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.recentAccount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.recentAccount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Oldest Account:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.oldestAccount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.oldestAccount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Total Credit Limit:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalCreditLimit || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.totalCreditLimit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Credit:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestCredit || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestCredit || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Sanction Amount:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestSanctionAmount || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestSanctionAmount || "-"}</span>
           </div>
           <div className="details-row">
             <span className="label">Single Highest Balance:</span>
-            <span className="value">{paymentData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestBalance || "-"}</span>
+            <span className="value">{reportData?.data.cCRResponse.cIRReportDataLst[0].cIRReportData.retailAccountsSummary.singleHighestBalance || "-"}</span>
           </div>
         </div>
       </div>
@@ -699,10 +670,6 @@ const FirstComponent = () => {
     onClick={downloadPDF}>Get Detailed Report</button>
   </div>
 </Modal>
-
-
-
-
     </div>
   );
 };
