@@ -29,6 +29,7 @@ const FirstComponent = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reportData, setreportData] = useState(null);
+  const [isLoading, setIsLoading]=useState(false);
   //const [data, setData] = useState(null); 
 
 
@@ -144,6 +145,7 @@ const FirstComponent = () => {
   };
 
  const openRazorpay = (order) => {
+  
   const options = {
     amount: order.amount,
     currency: order.currency,
@@ -153,7 +155,7 @@ const FirstComponent = () => {
     handler: async (response) => {
       try {
         console.log("Payment successful:", response);
-        
+        setIsLoading(true);
        
         const body = {
           refid: generateRandomNumber(),
@@ -169,12 +171,13 @@ const FirstComponent = () => {
         await saveCreditReportJson(creditReport);
         const tempData=await getReportJson();
         setreportData(tempData);
-        
+        setIsLoading(false);
     
         console.log("Credit report saved successfully:", creditReport);
         setIsModalOpen(true);
 
       } catch (error) {
+        setIsLoading(false);
         console.error("Payment verification failed:", error);
       }
     },
@@ -195,7 +198,24 @@ const FirstComponent = () => {
     setreportData(null); // Clear payment data after closing modal
   };
 
-  const downloadPDF = () => {
+  const loadLogo = (path) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = path; // Path to the image in the assets folder
+      img.crossOrigin = "Anonymous"; // Handle CORS issues if needed
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL("image/png")); // Convert to Base64
+      };
+      img.onerror = (err) => reject(err);
+    });
+  };
+
+  const downloadPDF = async () => {
     if (!reportData) {
       alert("Data not loaded. Please try again later.");
       return;
@@ -218,9 +238,15 @@ const FirstComponent = () => {
       recentActivities,
     } = reportData.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
     
+    const RealScoreLogo = await loadLogo("/image/RealScoreLogo.png");
+    const EquifaxLogo = await loadLogo("/image/EquifaxLogo.png")
+
+
     // Title and Header
     doc.setFontSize(18);
+    doc.addImage(RealScoreLogo,"PNG",7,3,26,13);
     doc.text("Equifax Credit Report", 105, 15, { align: "center" });
+    doc.addImage(EquifaxLogo,"PNG",170,10,31,6);
     doc.setFontSize(10);
     doc.setDrawColor(0);
     doc.line(10, 20, 200, 20);
@@ -398,6 +424,11 @@ const FirstComponent = () => {
 
   return (
     <div>
+      {isLoading && (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      )}
       <div className="Topnav">
         <div className="logo">
           <img src="../image/RealScoreLogo.png" alt="Logo" height="40px"  />
@@ -554,8 +585,7 @@ const FirstComponent = () => {
   className="modal"
   overlayClassName="overlay"
 >
-
-<h1>Credit Report Summary</h1>  
+  
 <div className="meter">
 <span 
     className="close-icon" 
