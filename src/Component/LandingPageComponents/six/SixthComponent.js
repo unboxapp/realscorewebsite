@@ -92,9 +92,30 @@ const CreditScoreMeter = () => {
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [direction]);
 
+  document.addEventListener("DOMContentLoaded", () => {
+    const fadeInElements = document.querySelectorAll(".fade-in");
+  
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      },
+      {
+        threshold: 0.2, // Trigger when 10% of the element is visible
+      }
+    );
+  
+    fadeInElements.forEach((element) => observer.observe(element));
+  });
+  
+
+
   return (
     <div className="outer">
-      <div className="meter-container">
+      <div className="meter-container fade-in">
         <h1>What does your credit score mean?</h1>
         <div className="inner1">
           <div className="meter-wrapper">

@@ -145,7 +145,6 @@ const FirstComponent = () => {
   };
 
  const openRazorpay = (order) => {
-  
   const options = {
     amount: order.amount,
     currency: order.currency,
@@ -155,8 +154,8 @@ const FirstComponent = () => {
     handler: async (response) => {
       try {
         console.log("Payment successful:", response);
+        
         setIsLoading(true);
-       
         const body = {
           refid: generateRandomNumber(),
           name: formData.fullName,
@@ -171,13 +170,12 @@ const FirstComponent = () => {
         await saveCreditReportJson(creditReport);
         const tempData=await getReportJson();
         setreportData(tempData);
+        
         setIsLoading(false);
-    
         console.log("Credit report saved successfully:", creditReport);
         setIsModalOpen(true);
 
       } catch (error) {
-        setIsLoading(false);
         console.error("Payment verification failed:", error);
       }
     },
@@ -198,6 +196,7 @@ const FirstComponent = () => {
     setreportData(null); // Clear payment data after closing modal
   };
 
+
   const loadLogo = (path) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -215,7 +214,7 @@ const FirstComponent = () => {
     });
   };
 
-  const downloadPDF = async () => {
+  const downloadPDF = async() => {
     if (!reportData) {
       alert("Data not loaded. Please try again later.");
       return;
@@ -238,11 +237,11 @@ const FirstComponent = () => {
       recentActivities,
     } = reportData.data.cCRResponse.cIRReportDataLst[0].cIRReportData;
     
+    // Title and Header
+       
     const RealScoreLogo = await loadLogo("/image/RealScoreLogo.png");
     const EquifaxLogo = await loadLogo("/image/EquifaxLogo.png")
 
-
-    // Title and Header
     doc.setFontSize(18);
     doc.addImage(RealScoreLogo,"PNG",7,3,26,13);
     doc.text("Equifax Credit Report", 105, 15, { align: "center" });
@@ -585,7 +584,7 @@ const FirstComponent = () => {
   className="modal"
   overlayClassName="overlay"
 >
-  
+
 <div className="meter">
 <span 
     className="close-icon" 
