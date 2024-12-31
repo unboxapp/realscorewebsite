@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Pagefive.css";
 // Import Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,7 @@ import {
 const FifthComponent = () => {
   const [activeDropdown, setActiveDropdown] = useState("credit-utilization");
   const [activeImpact, setActiveImpact] = useState("high-impact");
+  const [isVisible, setIsVisible] = useState(false);
 
   const toggleDropdown = (id) => {
     // Toggle the dropdown
@@ -30,18 +31,41 @@ const FifthComponent = () => {
     }
   };
 
+  useEffect(() => {
+    const fadeInElements = document.querySelectorAll(".fade-in-left, .fade-in-right");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("fade-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the element is visible
+      }
+    );
+
+    fadeInElements.forEach((element) => observer.observe(element));
+
+    return () => {
+      fadeInElements.forEach((element) => observer.unobserve(element));
+    };
+  }, []);
+
   return (
     <div className="containerf2">
       <div className="containerf">
         {/* Heading */}
-        <h1 className="main-headingf">
-            Factors Affecting <span className="highlight">Credit Score</span>
+        <h1 className="main-headingf fade-in-left">
+          Factors Affecting <span className="highlight">Credit Score</span>
         </h1>
 
         <div className="content-wrapperf">
           {/* Dropdown Content Section */}
-          <div className="contentf">
-            <div className="dropdown-containerf">
+          <div className="contentf ">
+            <div className="dropdown-itemf fade-in-left">
               {[
                 {
                   id: "credit-utilization",
@@ -65,7 +89,7 @@ const FifthComponent = () => {
                   id: "total-accounts",
                   icon: <FontAwesomeIcon icon={faUsers} />,
                   title: "Total Accounts",
-                  text: "Accounts comprise various credit/loans taken by you, including credit cards, home loans, Personal loans, Car loans, Consumer loans, etc. Credit accounts or credit mix is an important parameter that affects the credit score..",
+                  text: "Accounts comprise various credit/loans taken by you, including credit cards, home loans, Personal loans, Car loans, Consumer loans, etc. Credit accounts or credit mix is an important parameter that affects the credit score.",
                 },
                 {
                   id: "credit-enquiries",
@@ -74,7 +98,10 @@ const FifthComponent = () => {
                   text: "A credit inquiry is a request by an institution for credit report information from a credit bureau. Credit inquiries are generally of two types: - Hard enquiry & Soft enquiry.",
                 },
               ].map((item) => (
-                <div className="dropdown-itemf" key={item.id}>
+                <div
+                  className={`dropdown-itemf fade-in-left hidden`}
+                  key={item.id}
+                >
                   <div
                     className="dropdown-headerf"
                     onClick={() => toggleDropdown(item.id)}
@@ -95,7 +122,7 @@ const FifthComponent = () => {
           </div>
 
           {/* Pyramid Section */}
-          <div className="pyramid">
+          <div className="pyramid fade-in-right">
             <div
               className={`triangle high-impact ${
                 activeImpact === "high-impact" ? "active" : "blurred"

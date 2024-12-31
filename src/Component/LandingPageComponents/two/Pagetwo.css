@@ -2,26 +2,36 @@
 @import url(https://fonts.googleapis.com/css?family=Exo:100);
 
 /* Keyframes for fade-in animations (retain these if needed) */
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+
+
+.fade-element {
+  opacity: 0;
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Fade-in animations */
+.fade-in-left {
+  transform: translateX(-150px);
+}
+.fade-in-left.fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  transform: translateX(150px);
+}
+.fade-in-right.fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-top {
+  transform: translateY(-80px);
+}
+.fade-in-top.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Global body styling */
@@ -31,7 +41,7 @@ body {
   font-family: Arial, sans-serif;
   color: #000000;
   text-align: center;
-  background-color: #000; /* Fallback for areas outside .Pagetwo */
+  background-color: #000;
 }
 
 /* Pagetwo styling */
@@ -40,14 +50,13 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  height: 90vh; /* Full viewport height */
-
-  /* Static background image for this section */
+  height: 90vh;
   background: 
-    url("/public/image/powerpoint-slide-with-white-background-SB02298-min-scaled.jpg") no-repeat center center; /* Replace with your image URL */
-  background-size: cover; /* Ensure the background image covers the section */
-  position: relative; /* Confine the background to this section */
-  overflow: hidden; /* Prevent content overflow outside the section */
+    url("/public/image/powerpoint-slide-with-white-background-SB02298-min-scaled.jpg") 
+    no-repeat center center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Left section (image animation) */
@@ -61,7 +70,7 @@ body {
 .WhatisRight {
   flex: 1;
   margin-left: 2rem;
-  animation: fadeInUp 2s ease-out;
+  animation: fadeInRight 2s ease-out;
 }
 
 /* Heading styling */
@@ -71,10 +80,11 @@ body {
   text-align: center;
   color: #05062c;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  animation: fadeInTop 2s ease-out;
 }
 
 .heading h1 u {
-  text-decoration-color: #ff4500; /* Custom underline color */
+  text-decoration-color: #ff4500;
   text-decoration-thickness: 2px;
 }
 
@@ -82,13 +92,84 @@ body {
 .para {
   font-size: 1.1rem;
   line-height: 1.8;
-  /* background-color: rgba(0, 0, 0, 0.5); */
   padding: 1.5rem;
   border-radius: 10px;
   text-align: left;
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); */
 }
 
-.para p {
-  margin-bottom: 1rem;
+/* Responsive adjustments for tablet and small desktop */
+@media (max-width: 1024px) {
+  .Pagetwo {
+    flex-direction: column;
+    height: auto;
+    padding: 1.5rem; /* Slightly increased padding for better spacing */
+    gap: 1rem; /* Add gap between elements for improved layout */
+  }
+
+  .PhoneLeft {
+    margin-bottom: 1.5rem; /* More spacing for a cleaner look */
+  }
+
+  .WhatisRight {
+    margin-left: 0;
+  }
+
+  .heading h1 {
+    font-size: 2.2rem; /* Slightly larger for better visibility */
+    text-align: center; /* Center-align for better focus on smaller screens */
+    margin-bottom: 0.5rem;
+  }
+
+  .para {
+    font-size: 1rem;
+    padding: 1.2rem; /* Increase padding for better spacing around text */
+    line-height: 1.6; /* Improved readability */
+  }
 }
+
+/* Responsive adjustments for mobile landscape and large phones */
+@media (max-width: 768px) {
+  .Pagetwo {
+    padding: 1rem;
+    gap: 0.8rem; /* Consistent spacing */
+  }
+
+  .heading h1 {
+    font-size: 2rem; /* Scaled-down font size */
+    text-align: center; /* Center-align for consistency */
+  }
+
+  .para {
+    font-size: 0.95rem; /* Slightly reduced font size */
+    line-height: 1.6; /* Maintain readability */
+    padding: 1rem; /* Ensure consistent padding */
+  }
+}
+
+/* Responsive adjustments for small phones and portrait */
+@media (max-width: 480px) {
+  .Pagetwo {
+    padding: 0.8rem; /* Compact padding for smaller devices */
+    gap: 0.5rem;
+  }
+
+  .PhoneLeft img {
+    width: 100%;
+    height: auto; /* Ensure aspect ratio is maintained */
+    margin-bottom: 1rem; /* Add spacing below the image */
+  }
+
+  .heading h1 {
+    font-size: 1.6rem; /* Slightly reduced for smaller screens */
+    text-align: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .para {
+    font-size: 0.85rem; /* Scaled font for readability */
+    padding: 0.8rem; /* Compact padding */
+    line-height: 1.6; /* Maintain good readability */
+  }
+}
+
+

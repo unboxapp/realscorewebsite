@@ -171,7 +171,7 @@ const FirstComponent = () => {
         const tempData=await getReportJson();
         setreportData(tempData);
         
-        setIsLoading(true);
+        setIsLoading(false);
         console.log("Credit report saved successfully:", creditReport);
         setIsModalOpen(true);
 
