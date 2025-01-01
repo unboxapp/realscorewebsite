@@ -61,7 +61,7 @@ body {
 
 /* Left section (image animation) */
 .PhoneLeft img {
-  max-width: 100%;
+  max-width: 60%;
   height: auto;
   animation: fadeInLeft 2s ease-out;
 }
@@ -154,7 +154,7 @@ body {
   }
 
   .PhoneLeft img {
-    width: 100%;
+    width: 60%;
     height: auto; /* Ensure aspect ratio is maintained */
     margin-bottom: 1rem; /* Add spacing below the image */
   }
