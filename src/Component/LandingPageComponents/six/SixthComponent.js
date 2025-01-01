@@ -92,7 +92,8 @@ const CreditScoreMeter = () => {
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [direction]);
 
-  document.addEventListener("DOMContentLoaded", () => {
+  
+  useEffect(() => {
     const fadeInElements = document.querySelectorAll(".fade-in");
   
     const observer = new IntersectionObserver(
@@ -103,14 +104,13 @@ const CreditScoreMeter = () => {
           }
         });
       },
-      {
-        threshold: 0.2, // Trigger when 10% of the element is visible
-      }
+      { threshold: 0.2 }
     );
   
     fadeInElements.forEach((element) => observer.observe(element));
-  });
   
+    return () => observer.disconnect(); // Cleanup
+  }, []);
 
 
   return (
