@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import "./Pageone.css";
-import { createOrder, getReportJson, saveCreditReportJson,creditReportFetch, saveCustomerDetails } from "../../../services/api"; 
+import { createOrder, creditReportFetch, saveCustomerDetails } from "../../../services/api"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditScoreImage1 from './assets/300-650.png';
@@ -30,7 +30,6 @@ const FirstComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reportData, setreportData] = useState(null);
   const [isLoading, setIsLoading]=useState(false);
-  //const [data, setData] = useState(null); 
 
 
   const validateForm = () => {
@@ -157,20 +156,18 @@ const FirstComponent = () => {
         
         setIsLoading(true);
         const body = {
-          refid: generateRandomNumber(),
-          name: formData.fullName,
-          mobile: formData.mobileNumber,
-          document_id: formData.pan,
+          "refid": `${generateRandomNumber()}`,
+          "name": formData.fullName,
+          "mobile": formData.mobileNumber,
+          "document_id": formData.pan,
         };
 
-        const creditReport = await creditReportFetch(); 
-        await saveCustomerDetails({
-          body, credit_report: creditReport
-        })
-        await saveCreditReportJson(creditReport);
-        const tempData=await getReportJson();
-        setreportData(tempData);
+        const creditReport = await creditReportFetch(body); 
+        // await saveCustomerDetails({
+        //   body, credit_report: creditReport
+        // });
         
+        setreportData(creditReport);
         setIsLoading(false);
         console.log("Credit report saved successfully:", creditReport);
         setIsModalOpen(true);
