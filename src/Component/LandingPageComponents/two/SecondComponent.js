@@ -34,7 +34,7 @@ const SecondComponent = () => {
         className="PhoneLeft fade-element fade-in-left"
         ref={(el) => (elementsRef.current[0] = el)}
       >
-        <img src="./image/imagess-removebg-preview.png" alt="Phone Preview" />
+       <img src="./image/imagess-removebg-preview.png" alt="Phone Preview" />
       </div>
       <div
         className="WhatisRight fade-element fade-in-right"
@@ -76,6 +76,7 @@ const SecondComponent = () => {
             opportunities for a brighter future.
           </p>
         </div>
+        <Playstore></Playstore>
       </div>
     </div>
   );
