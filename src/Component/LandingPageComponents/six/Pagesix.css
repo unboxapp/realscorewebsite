@@ -1,4 +1,27 @@
-/* General Container */
+/* Keyframes for Fade-In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(60px); /* Slight upward motion */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Neutral position */
+  }
+}
+
+/* Hidden State */
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* Active State (When in view) */
+.fade-in.active {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+
 .meter-container {
   max-width: 1000px;
   padding: 50px 20px;
@@ -9,20 +32,22 @@
 
 .outer {
   background-color: white;
-  height: 500px;
+  height: auto; /* Allow height to adjust dynamically */
   margin: auto; /* Center the outer container */
+  padding: 20px;
 }
 
 .inner1 {
   display: flex;
-  gap: 150px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 70px; /* Reduce gap for smaller screens */
   align-items: center;
   justify-content: center; /* Align content horizontally */
   padding: 20px;
 }
 
 .meter-container h1 {
-  font-size: 2rem; /* Use relative font size */
+  font-size: 2.5rem; /* Use relative font size */
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center; /* Center title */
@@ -32,8 +57,9 @@
 .meter-wrapper {
   position: relative;
   display: inline-block;
-  width: 450px;
-  height: 180px;
+  width: 100%; /* Make responsive */
+  max-width: 450px;
+  height: auto;
 }
 
 /* Gauge Background */
@@ -81,9 +107,11 @@
 
 /* Score Information */
 .score-info {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   margin-top: 20px;
-  text-align: left; /* Ensure center alignment */
+  text-align: left; 
+
 }
 
 .score-info h2 {
@@ -92,8 +120,7 @@
 }
 
 .score-info p {
-  width: 400px;
-  font-size: 1.2rem; /* Relative font size */
+  font-size: 1.2rem; /* Reduce font size for smaller screens */
   color: #666;
   margin-top: 20px;
 }
@@ -101,28 +128,93 @@
 /* Buttons Container */
 .buttons-container {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap; /* Allow buttons to stack on smaller screens */
   gap: 20px; /* Adjust spacing between buttons */
   margin-top: 20px;
 }
 
-/* Buttons */
+/* Arrow Buttons */
 .btn {
-  padding: 10px 20px;
-  font-size: 0.875rem; /* Relative font size */
-  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
   border: none;
-  background-color: #2DA35D; /* Default button color */
+  background-color: #161d19; /* Default button color */
   color: white;
-  border-radius: 5px;
+  border-radius: 50%; /* Circular button */
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn:hover {
-  background-color: #1e8b4d; /* Darker shade on hover */
+  background-color: #27d472; /* Darker shade on hover */
 }
 
 .btn:active {
-  background-color: #166f3a; /* Even darker shade on click */
+  background-color: #13c45a; /* Even darker shade on click */
+  transform: scale(0.95); /* Slight shrink effect on click */
+}
+
+/* Icons for Buttons */
+.arrow-icon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.arrow-up {
+  border-width: 0 10px 15px 10px;
+  border-color: transparent transparent white transparent;
+}
+
+.arrow-down {
+  border-width: 15px 10px 0 10px;
+  border-color: white transparent transparent transparent;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .inner1 {
+    gap: 10px; /* Reduce gap on smaller screens */
+  }
+
+  .meter-wrapper {
+    max-width: 300px; /* Shrink gauge on smaller screens */
+  }
+
+  .score-info {
+    max-width: 100%; /* Allow full width */
+    font-size: 1rem;
+  }
+
+  .buttons-container {
+    justify-content: center; /* Center buttons on smaller screens */
+  }
+
+  .btn {
+    width: 40px; /* Shrink button size */
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .meter-container h1 {
+    font-size: 1.5rem; /* Smaller font for title */
+  }
+
+  .score-info p {
+    font-size: 0.9rem; /* Further reduce font size */
+  }
+
+  .btn {
+    width: 35px; /* Smaller buttons for very small screens */
+    height: 35px;
+    font-size: 14px;
+  }
 }

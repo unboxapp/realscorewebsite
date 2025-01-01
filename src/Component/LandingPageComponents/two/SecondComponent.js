@@ -1,19 +1,57 @@
-import React from 'react';
+import React, { useRef, useEffect } from "react";
 import './Pagetwo.css';
+import { Playstore } from './Playstore';
 
 const SecondComponent = () => {
+  const elementsRef = useRef([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    elementsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      elementsRef.current.forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+
   return (
     <div className="Pagetwo">
-      <div className="PhoneLeft">
+      <div
+        className="PhoneLeft fade-element fade-in-left"
+        ref={(el) => (elementsRef.current[0] = el)}
+      >
         <img src="./image/imagess-removebg-preview.png" alt="Phone Preview" />
       </div>
-      <div className="WhatisRight">
-        <div className="heading">
+      <div
+        className="WhatisRight fade-element fade-in-right"
+        ref={(el) => (elementsRef.current[1] = el)}
+      >
+        <div
+          className="heading fade-element fade-in-top"
+          ref={(el) => (elementsRef.current[2] = el)}
+        >
           <u>
             <h1>What is Real Score?</h1>
           </u>
         </div>
-        <div className="para">
+        <div
+          className="para fade-element fade-in-right"
+          ref={(el) => (elementsRef.current[3] = el)}
+        >
           <p>
             RealScore Service is your trusted partner in repairing credit scores
             and credit histories. By removing negative flags from your profile,

@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+::-webkit-scrollbar {
+  display: none;
+  width: 0; 
+  scrollbar-width: none/* Hides scrollbar in WebKit-based browsers */
+}
+
+* {
+  -ms-overflow-style: none; /* Hides scrollbar in Internet Explorer */
+ /* Hides scrollbar in Firefox */
+ 
+}

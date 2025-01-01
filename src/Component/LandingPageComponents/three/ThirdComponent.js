@@ -1,67 +1,93 @@
-import React from "react";
-import "./Pagethree.css"; // Importing the same CSS file for styling
+import React, { useRef, useEffect } from "react";
+import "./Pagethree.css";
 
 const PageThree = () => {
+  const elementsRef = useRef([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    elementsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      elementsRef.current.forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+
   return (
     <div className="area">
-    <ul className="circles">
-      {Array(10)
-        .fill(0)
-        .map((_, index) => (
-          <li key={index}></li>
-        ))}
-    </ul>
-    <div className="Pagethree1">
-
-      {/* Heading Section */}
-      <div className="heading3">
-        <h1>Why keep track of credit score?</h1>
-      </div>
-
-      {/* Layered Card Section */}
-      <div className="boxess">
-        {/* First Box */}
-        <div className="box">
-          {/* Card 1 */}
-          <Card 
-            imageSrc="../image/one.png" 
-            description="Monthly free credit report" 
-          />
-          {/* Card 2 */}
-          <Card 
-            imageSrc="../image/two.png" 
-            description="Detailed analysis of factors affecting score" 
-          />
+      <ul className="circles">
+        {Array(10)
+          .fill(0)
+          .map((_, index) => (
+            <li key={index}></li>
+          ))}
+      </ul>
+      <div className="Pagethree1">
+        {/* Heading Section */}
+        <div
+          className="heading3 scale-element"
+          ref={(el) => (elementsRef.current[0] = el)}
+        >
+          <h1>Why keep track of credit score?</h1>
         </div>
 
-        {/* Separator */}
-        <div className="seperator"></div>
+        {/* Layered Card Section */}
+        <div className="boxess">
+          {/* First Box */}
+          <div className="box">
+            <Card
+              imageSrc="../image/one.png"
+              description="Monthly free credit report"
+              ref={(el) => (elementsRef.current[1] = el)}
+            />
+            <Card
+              imageSrc="../image/two.png"
+              description="Detailed analysis of factors affecting score"
+              ref={(el) => (elementsRef.current[2] = el)}
+            />
+          </div>
 
-        {/* Second Box */}
-        <div className="box">
-          {/* Card 3 */}
-          <Card 
-            imageSrc="../image/three.png" 
-            description="Personalised tips on improving & building score" 
-          />
-          {/* Card 4 */}
-          <Card 
-            imageSrc="../image/four.png" 
-            description="Pre-approved offers" 
-          />
+          {/* Separator */}
+          <div className="seperator"></div>
+
+          {/* Second Box */}
+          <div className="box">
+            <Card
+              imageSrc="../image/three.png"
+              description="Personalised tips on improving & building score"
+              ref={(el) => (elementsRef.current[3] = el)}
+            />
+            <Card
+              imageSrc="../image/four.png"
+              description="Pre-approved offers"
+              ref={(el) => (elementsRef.current[4] = el)}
+            />
+          </div>
+          <div className="vsep"></div>
         </div>
-        <div className="vsep"></div>
       </div>
-      </div>
-      </div>
-
+    </div>
   );
 };
 
 // Card Component
-const Card = ({ imageSrc, description }) => {
+const Card = React.forwardRef(({ imageSrc, description }, ref) => {
   return (
-    <div className="card">
+    <div className="card scale-element" ref={ref}>
       <div className="imgBx">
         <img src={imageSrc} alt="card visual" />
       </div>
@@ -69,8 +95,7 @@ const Card = ({ imageSrc, description }) => {
         <h2>{description}</h2>
       </div>
     </div>
-    
   );
-};
+});
 
 export default PageThree;

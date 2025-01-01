@@ -1,7 +1,5 @@
 .area {
-    
     background: #03052d;
-    /* background: -webkit-linear-gradient(to left, #b7baf8, #8288fc); */
     height: auto;
     width: 100%;
     position: relative;
@@ -41,16 +39,12 @@
 
 .circles li:nth-child(2) {
     left: 10%;
-    width: 20px;
-    height: 20px;
     animation-delay: 2s;
     animation-duration: 12s;
 }
 
 .circles li:nth-child(3) {
     left: 70%;
-    width: 20px;
-    height: 20px;
     animation-delay: 4s;
 }
 
@@ -58,15 +52,11 @@
     left: 40%;
     width: 60px;
     height: 60px;
-    animation-delay: 0s;
     animation-duration: 18s;
 }
 
 .circles li:nth-child(5) {
     left: 65%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
 }
 
 .circles li:nth-child(6) {
@@ -103,7 +93,6 @@
     left: 85%;
     width: 150px;
     height: 150px;
-    animation-delay: 0s;
     animation-duration: 11s;
 }
 
@@ -113,7 +102,6 @@
         opacity: 1;
         border-radius: 0;
     }
-
     100% {
         transform: translateY(-1000px) rotate(720deg);
         opacity: 0;
@@ -121,39 +109,102 @@
     }
 }
 
-.cards-list {
-    z-index: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    /* background-color: rgb(0, 25, 246); */
-}
-
 .Heading {
     width: 100vw;
     font-size: 25px;
     text-align: center;
-    margin-top: 60px;
-    margin-bottom: 40px;
+    margin: 60px 0 40px;
     color: rgb(255, 255, 255);
+    animation: fadeInTop 2s ease-out;
 }
 
-.cardy {
-    margin: 30px 10px;
-    width: 390px;
-    height: 230px;
+@keyframes fadeInTop {
+    from {
+        opacity: 0;
+        transform: translateY(-80px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cards-list {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+ .cardy {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 390px;
+    aspect-ratio: 16 / 9;
     border-radius: 20px;
-    box-shadow: 5px 5px 30px 7px rgba(0, 0, 0, 0.25), -5px -5px 30px 7px rgba(0, 0, 0, 0.22);
     cursor: pointer;
-    position: relative; /* Ensure proper positioning for pseudo-elements */
-    overflow: hidden; /* Prevent content overflow */
+    position: relative;
+    overflow: hidden;
     transition: 0.4s;
 }
 
 .cardy:hover {
-    transform: translateY(-20px); /* Slight upward movement on hover */
+    transform: translateY(-20px);
+    box-shadow: 5px 5px 30px 7px rgba(0, 0, 0, 0.25), -5px -5px 30px 7px rgba(0, 0, 0, 0.22);
+} 
+
+.cardy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  transition: opacity 0.3s ease;
+  opacity: 0;
 }
+
+.cardy:hover::before {
+  opacity: 0.6;
+}
+
+.cardy .card_image {
+  width: inherit;
+  height: inherit;
+  border-radius: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.cardy:hover .card_image {
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+.cardy .card_title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 26px;
+  text-align: center;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cardy:hover .card_title {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1); /* Title zoom effect */
+}
+
 
 .cardy::before {
     content: "";
@@ -163,14 +214,14 @@
     width: 100%;
     height: 100%;
     border-radius: 20px;
-    background: rgba(0, 0, 0, 0.6); /* Blackish overlay with transparency */
+    background: rgba(0, 0, 0, 0.6);
     z-index: 2;
     transition: 0.5s;
-    opacity: 0; /* Initially hidden */
+    opacity: 0;
 }
 
 .cardy:hover::before {
-    opacity: 1; /* Show overlay on hover */
+    opacity: 1;
 }
 
 .cardy .card_image {
@@ -187,26 +238,69 @@
 }
 
 .cardy .card_title {
-    position: absolute; /* Overlay text */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
     font-family: sans-serif;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 26px;
     text-align: center;
-    z-index: 3; /* Ensure text appears above the overlay */
-    opacity: 0; /* Hidden by default */
+    z-index: 3;
+    opacity: 0;
     transition: 0.5s;
 }
 
 .cardy:hover .card_title {
-    opacity: 1; /* Show text on hover */
+    opacity: 1;
 }
 
-@media all and (max-width: 500px) {
+/* Media Queries */
+@media (max-width: 768px) {
+    .Heading {
+        font-size: 4.5vw;
+        margin: 1rem 0;
+    }
+
     .cards-list {
         flex-direction: column;
+        align-items: center;
     }
+
+    .cardy {
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    .cardy .card_title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Heading {
+        font-size: 5vw;
+        margin: 1.5rem 0;
+    }
+
+    .cardy {
+        width: 95%;
+    }
+
+    .cardy .card_title {
+        font-size: 16px;
+    }
+}
+
+/* Scale-Up Animation */
+.scale-element {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.4s ease-in-out;
+}
+
+.scale-element.visible {
+    opacity: 1;
+    /* transform: scale(1); */
 }

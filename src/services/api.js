@@ -11,3 +11,45 @@ export const createOrder = async (orderData) => {
     throw error;
   }
 };
+
+export const creditReportFetch = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/fetch-credit-report`);
+    return response.data;
+  } catch (error) {
+    console.error('API call error:', error.message);
+    throw error;
+  }
+};
+
+export const saveCustomerDetails = async(body)=>{
+  try{
+    const response = await axios.post(`${API_BASE_URL}/save-customer-details`,body);
+    return response.data;
+  }
+  catch(error)
+  {
+    console.error('API call error:', error.message);
+    throw error;
+  }
+}
+
+export const saveCreditReportJson = async (creditReport) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/save-report-json`, creditReport);
+    return response.data;
+  } catch (error) {
+    console.error('API call error:', error.message);
+    throw error;
+  }
+};
+
+export const getReportJson = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/get-report-json`);
+    return response.data;
+  } catch (error) {
+    console.error('API call error:', error.message);
+    throw error;
+  }
+};
