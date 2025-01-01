@@ -163,9 +163,9 @@ const FirstComponent = () => {
         };
 
         const creditReport = await creditReportFetch(body); 
-        await saveCustomerDetails({
-          body, credit_report: creditReport
-        })
+        // await saveCustomerDetails({
+        //   body, credit_report: creditReport
+        // });
         
         setreportData(creditReport);
         setIsLoading(false);

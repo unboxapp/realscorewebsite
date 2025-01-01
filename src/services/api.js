@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '13.127.103.210';
+const API_BASE_URL = 'http://13.127.103.210:5000';
 
 export const createOrder = async (orderData) => {
   try {
