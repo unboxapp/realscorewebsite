@@ -487,8 +487,8 @@ button:hover {
 .CreditScoreImage4,
 .CreditScoreImage5 {
   position: absolute; 
-  top:-165px;/* Set all images to the same position */
-  width: 35%; /* Responsive width, adjust as needed */
+  top:-250px;/* Set all images to the same position */
+  width: 45%; /* Responsive width, adjust as needed */
   height: auto; /* Maintain aspect ratio */
 }
 
@@ -512,7 +512,7 @@ button:hover {
   z-index: 5; /* Highest stacking order */
 }
 .DynamicCreditScore{
-  font-size: 35px;
+  font-size: 42px;
   font-weight: 600;
   /* margin-bottom: 10px; */
 }
