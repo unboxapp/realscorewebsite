@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.050c5ef2.css",
+    "main.js": "/static/js/main.5013e701.js",
+    "static/js/239.dcfb2cf7.chunk.js": "/static/js/239.dcfb2cf7.chunk.js",
+    "static/js/213.1b1822b1.chunk.js": "/static/js/213.1b1822b1.chunk.js",
+    "static/js/455.82f18ed3.chunk.js": "/static/js/455.82f18ed3.chunk.js",
+    "static/js/488.e1a60c01.chunk.js": "/static/js/488.e1a60c01.chunk.js",
+    "static/media/300-650.png": "/static/media/300-650.060830ec9bc06e6775b6.png",
+    "static/media/750-800.png": "/static/media/750-800.ea6997390a09127bb55b.png",
+    "static/media/650-700.png": "/static/media/650-700.4d70a5648e458f9f1e50.png",
+    "static/media/800-900.png": "/static/media/800-900.4947ca878d6bb89be1f0.png",
+    "static/media/700-750.png": "/static/media/700-750.1fa1f0f2ae5b182b93be.png",
+    "static/media/powerpoint-slide-with-white-background-SB02298-min-scaled.jpg": "/static/media/powerpoint-slide-with-white-background-SB02298-min-scaled.99abe883d9ae5fdd6c58.jpg",
+    "static/media/Huawei.svg": "/static/media/Huawei.05f60516d2a39d595dabc4ffdec3856a.svg",
+    "index.html": "/index.html",
+    "static/media/Google-Play.svg": "/static/media/Google-Play.ac31ae6df1dba23b69f866a909077d74.svg",
+    "static/media/Apple-light.svg": "/static/media/Apple-light.cdd7304efd805f2053de1036bf9b5ed4.svg",
+    "static/media/Apple.svg": "/static/media/Apple.71320a89dc7cdb815431216cf0bc1dd2.svg",
+    "main.050c5ef2.css.map": "/static/css/main.050c5ef2.css.map",
+    "main.5013e701.js.map": "/static/js/main.5013e701.js.map",
+    "239.dcfb2cf7.chunk.js.map": "/static/js/239.dcfb2cf7.chunk.js.map",
+    "213.1b1822b1.chunk.js.map": "/static/js/213.1b1822b1.chunk.js.map",
+    "455.82f18ed3.chunk.js.map": "/static/js/455.82f18ed3.chunk.js.map",
+    "488.e1a60c01.chunk.js.map": "/static/js/488.e1a60c01.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.050c5ef2.css",
+    "static/js/main.5013e701.js"
+  ]
+}

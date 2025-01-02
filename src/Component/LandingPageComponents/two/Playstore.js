@@ -6,8 +6,8 @@ export const Playstore = () => {
   return (
     <div className="play">
       <GooglePlayButton
-      height={55}
-      width={250}
+      height={50}
+      width={190}
         url={APKUrl}
         theme={"light"}
         className={"custom-style"}
