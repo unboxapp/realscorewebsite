@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://api.realscore.in:5000';
+const API_BASE_URL = 'https://api.realscore.in';
 
 export const createOrder = async (orderData) => {
   try {
