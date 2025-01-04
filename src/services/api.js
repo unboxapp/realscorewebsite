@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://realscorewebsite-backend.onrender.com/';
+const API_BASE_URL = 'https://realscorewebsite-backend.onrender.com';
 
 export const createOrder = async (orderData) => {
   try {
