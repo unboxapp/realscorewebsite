@@ -107,7 +107,7 @@ const FirstComponent = () => {
     try {
       // Create Razorpay Order
       const order = await createOrder({
-        amount: 1, // Amount in paisa
+        amount: 100, 
         currency: "INR",
         receipt: "website_receipt",
       });
