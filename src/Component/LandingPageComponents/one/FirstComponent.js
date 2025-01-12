@@ -485,90 +485,90 @@ const FirstComponent = () => {
               </p>
             </div>
           </div>
-          <div className="FormRight">
-            <div className="form-container">
-              <form className="credit-form">
-                <h2>Get Your Credit Report</h2>
+          // <div className="FormRight">
+          //   <div className="form-container">
+          //     <form className="credit-form">
+          //       <h2>Get Your Credit Report</h2>
 
-                <div className="input-container">
-                  <label htmlFor="full-name">Full Name</label>
-                  <input
-                    type="text"
-                    id="full-name"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    aria-label="Enter your full name"
-                  />
-                  {errors.fullName && (
-                    <p className="error">{errors.fullName}</p>
-                  )}
-                </div>
+          //       <div className="input-container">
+          //         <label htmlFor="full-name">Full Name</label>
+          //         <input
+          //           type="text"
+          //           id="full-name"
+          //           name="fullName"
+          //           value={formData.fullName}
+          //           onChange={handleInputChange}
+          //           aria-label="Enter your full name"
+          //         />
+          //         {errors.fullName && (
+          //           <p className="error">{errors.fullName}</p>
+          //         )}
+          //       </div>
 
-                <div className="input-container">
-                  <label htmlFor="pan">PAN Number</label>
-                  <input
-                    type="text"
-                    id="pan"
-                    name="pan"
-                    value={formData.pan}
-                    onChange={handleInputChange}
-                    aria-label="Enter your PAN number"
-                  />
-                  {errors.pan && <p className="error">{errors.pan}</p>}
-                </div>
+          //       <div className="input-container">
+          //         <label htmlFor="pan">PAN Number</label>
+          //         <input
+          //           type="text"
+          //           id="pan"
+          //           name="pan"
+          //           value={formData.pan}
+          //           onChange={handleInputChange}
+          //           aria-label="Enter your PAN number"
+          //         />
+          //         {errors.pan && <p className="error">{errors.pan}</p>}
+          //       </div>
 
                 
 
-                <div className="input-container">
-                  <label htmlFor="mobile-number">Mobile Number</label>
-                  <input
-                    type="tel"
-                    id="mobile-number"
-                    name="mobileNumber"
-                    value={formData.mobileNumber}
-                    onChange={handleInputChange}
-                    maxLength="10"
-                    aria-label="Enter your mobile number"
-                  />
-                  {errors.mobileNumber && (
-                    <p className="error">{errors.mobileNumber}</p>
-                  )}
-                </div>
+          //       <div className="input-container">
+          //         <label htmlFor="mobile-number">Mobile Number</label>
+          //         <input
+          //           type="tel"
+          //           id="mobile-number"
+          //           name="mobileNumber"
+          //           value={formData.mobileNumber}
+          //           onChange={handleInputChange}
+          //           maxLength="10"
+          //           aria-label="Enter your mobile number"
+          //         />
+          //         {errors.mobileNumber && (
+          //           <p className="error">{errors.mobileNumber}</p>
+          //         )}
+          //       </div>
 
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="terms"
-                    name="terms"
-                    checked={formData.terms}
-                    onChange={handleInputChange}
-                  />
-                  <label htmlFor="terms">
-                    I have read and agree to{" "}
-                    <a href="terms-and-conditions" target="_blank" rel="noopener noreferrer">
-                      Credit Score Terms of Use
-                    </a>{" "}
-                    and hereby appoint RealScore as my authorised
-                    representative to receive my credit information from{" "}
-                    <a href="https://www.cibil.com/">Cibil</a>, <a href="https://www.equifax.com/">Equifax</a>,{" "}
-                    <a href="https://www.experian.in/">Experian</a>, or <a href="https://www.crifhighmark.com/">CRIF Highmark</a>{" "}
-                    (bureau).
-                  </label>
-                  {errors.terms && <p className="error">{errors.terms}</p>}
-                </div>
+          //       <div className="checkbox-container">
+          //         <input
+          //           type="checkbox"
+          //           id="terms"
+          //           name="terms"
+          //           checked={formData.terms}
+          //           onChange={handleInputChange}
+          //         />
+          //         <label htmlFor="terms">
+          //           I have read and agree to{" "}
+          //           <a href="terms-and-conditions" target="_blank" rel="noopener noreferrer">
+          //             Credit Score Terms of Use
+          //           </a>{" "}
+          //           and hereby appoint RealScore as my authorised
+          //           representative to receive my credit information from{" "}
+          //           <a href="https://www.cibil.com/">Cibil</a>, <a href="https://www.equifax.com/">Equifax</a>,{" "}
+          //           <a href="https://www.experian.in/">Experian</a>, or <a href="https://www.crifhighmark.com/">CRIF Highmark</a>{" "}
+          //           (bureau).
+          //         </label>
+          //         {errors.terms && <p className="error">{errors.terms}</p>}
+          //       </div>
 
-                <button
+          //       <button
                 
-                  type="submit"
-                  onClick={handlePayment}
-                  disabled={loading}
-                >
-                  {loading ? "Loading..." : "Get Your Credit Report"}
-                </button>
-              </form>
-            </div>
-          </div>
+          //         type="submit"
+          //         onClick={handlePayment}
+          //         disabled={loading}
+          //       >
+          //         {loading ? "Loading..." : "Get Your Credit Report"}
+          //       </button>
+          //     </form>
+          //   </div>
+          // </div>
           <div className="vsep"></div>
         </div>
       </div>
