@@ -116,7 +116,7 @@ const CreditScoreMeter = () => {
   return (
     <div className="outer">
       <div className="meter-container fade-in">
-        <h1>What does your credit score mean?</h1>
+        <h2>What does your credit score mean?</h2>
         <div className="inner1">
           <div className="meter-wrapper">
             <div className="meter-image">

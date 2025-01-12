@@ -111,7 +111,7 @@
 
 .Heading {
     width: 100vw;
-    font-size: 25px;
+    font-size: 30px;
     text-align: center;
     margin: 60px 0 40px;
     color: rgb(255, 255, 255);
@@ -255,32 +255,33 @@
 .cardy:hover .card_title {
     opacity: 1;
 }
-
 /* Media Queries */
 @media (max-width: 768px) {
     .Heading {
-        font-size: 4.5vw;
+        font-size: 4vw; /* Adjusted for better proportions */
         margin: 1rem 0;
     }
 
     .cards-list {
         flex-direction: column;
-        align-items: center;
+        align-items: center; /* Center cards */
+        gap: 1rem; /* Adjust gap for compact layout */
     }
 
     .cardy {
-        width: 90%;
+        width: 90%; /* Adjust width for smaller screens */
         margin: 10px 0;
+        aspect-ratio: auto; /* Maintain natural aspect ratio */
     }
 
     .cardy .card_title {
-        font-size: 18px;
+        font-size: 18px; /* Scaled font size */
     }
 }
 
 @media (max-width: 480px) {
     .Heading {
-        font-size: 5vw;
+        font-size: 3.5vw; /* Further adjustment for very small screens */
         margin: 1.5rem 0;
     }
 
@@ -289,9 +290,10 @@
     }
 
     .cardy .card_title {
-        font-size: 16px;
+        font-size: 20px;
     }
 }
+
 
 /* Scale-Up Animation */
 .scale-element {

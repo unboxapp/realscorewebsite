@@ -58,9 +58,9 @@ const FifthComponent = () => {
     <div className="containerf2">
       <div className="containerf">
         {/* Heading */}
-        <h1 className="main-headingf fade-in-left">
+        <h2 className="main-headingf fade-in-left">
           Factors Affecting <span className="highlight">Credit Score</span>
-        </h1>
+        </h2>
 
         <div className="content-wrapperf">
           {/* Dropdown Content Section */}
