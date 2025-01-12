@@ -1,6 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import "./Pagethree.css";
 
+// Importing images properly
+import OnePic from './assets/one.webp';
+import TwoPic from './assets/two.webp';
+import ThreePic from './assets/three.webp';
+import FourPic from './assets/four.webp';
+
 const PageThree = () => {
   const elementsRef = useRef([]);
 
@@ -42,7 +48,7 @@ const PageThree = () => {
           className="heading3 scale-element"
           ref={(el) => (elementsRef.current[0] = el)}
         >
-          <h1>Why keep track of credit score?</h1>
+          <h2>Why keep track of credit score?</h2>
         </div>
 
         {/* Layered Card Section */}
@@ -50,12 +56,12 @@ const PageThree = () => {
           {/* First Box */}
           <div className="box">
             <Card
-              imageSrc="../image/one.png"
+              imageSrc={OnePic}
               description="Monthly free credit report"
               ref={(el) => (elementsRef.current[1] = el)}
             />
             <Card
-              imageSrc="../image/two.png"
+              imageSrc={TwoPic}
               description="Detailed analysis of factors affecting score"
               ref={(el) => (elementsRef.current[2] = el)}
             />
@@ -67,12 +73,12 @@ const PageThree = () => {
           {/* Second Box */}
           <div className="box">
             <Card
-              imageSrc="../image/three.png"
+              imageSrc={ThreePic}
               description="Personalised tips on improving & building score"
               ref={(el) => (elementsRef.current[3] = el)}
             />
             <Card
-              imageSrc="../image/four.png"
+              imageSrc={FourPic}
               description="Pre-approved offers"
               ref={(el) => (elementsRef.current[4] = el)}
             />

@@ -260,7 +260,7 @@ body {
 }
 
 .heading3 {
-  font-size: 25px;
+  font-size: 30px;
   margin-left: 60px;
   margin-bottom: 80px;
   margin-top: 80px;
@@ -269,73 +269,105 @@ body {
  
 }
 
-
-/* Responsive adjustments for tablets and small desktops */
-@media (max-width: 1068px) {
-  .heading3 h1{
-    font-size: 4.5vw; /* Slightly smaller for better scaling */
-    margin: 1rem 0; /* Add spacing above and below */
-    text-align: center; /* Center-align for focus */
+@media (max-width: 1168px) {
+  .heading3 h2 {
+    font-size: 4.5vw;
+    margin: 1rem 0;
+    text-align: center;
   }
 
   .box {
-    display: grid; /* Ensure consistent grid display */
-    grid-template-columns: 1fr; /* Single column layout */
-    gap: 1rem; /* Add spacing between items */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .card .imgBx {
-    height: 140px; /* Slightly larger for balance */
-    display: flex; /* Ensure image aligns well */
+    height: 140px;
+    display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .card .details h2 {
-    font-size: 1rem; /* Slightly larger text for readability */
-    text-align: center; /* Center-align for a balanced layout */
+    font-size: 1rem;
+    text-align: center;
   }
 }
 
-/* Responsive adjustments for small phones and portrait */
+@media (max-width: 768px) {
+  .heading3 h2 {
+    font-size: 5.5vw;
+    margin: 1.2rem 0;
+    text-align: center;
+  }
+
+  .box {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card .imgBx {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .card .details h2 {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+}
+
 @media (max-width: 480px) {
-  .heading3 h1{
-    font-size: 5vw; /* Maintain relative scaling */
-    margin: 1.5rem 0; /* Adjust spacing for smaller screens */
-    text-align: center; /* Consistent alignment */
+  .heading3 h2 {
+    font-size: 6vw;
+    margin: 1.5rem 0;
+    text-align: center;
   }
 
-  .box {
-    grid-template-columns: 1fr; /* Maintain single column layout */
-    gap: 0.8rem; /* Compact spacing */
-  }
-
-  .card .imgBx {
-    height: 110px; /* Reduce height for smaller screens */
-    display: flex; /* Align image properly */
+  .boxess {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Ensure no overflow issues */
-    border-radius: 8px; /* Add rounded corners for aesthetics */
   }
 
-  .card .details h2 {
-    font-size: 0.85rem; /* Adjust font size for readability */
-    text-align: center; /* Center-align text */
-    margin-top: 0.5rem; /* Add spacing for clarity */
+  .card {
+    width: 70vw;
+    margin: 5px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .details h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .seperator {
+    height: 0;
   }
 }
 
-
-/* Initial state for the scale-up animation */
 .scale-element {
   opacity: 0;
-  transform: scale(0.6); /* Start smaller */
+  transform: scale(0.6);
   transition: all 0.6s ease-in-out;
 }
 
-/* Visible state when the element is in view */
 .scale-element.visible {
   opacity: 1;
-  transform: scale(1); /* Scale up to normal size */
+  transform: scale(1);
 }
+

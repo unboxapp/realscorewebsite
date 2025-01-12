@@ -14,7 +14,7 @@ const RefundPolicy = () => {
 
             {/* Content section */}
             <div className="text-term">
-                <h1>Cancellation & Refund Policy</h1>
+                <h2>Cancellation & Refund Policy</h2>
                 <b>
                     <h3>Last updated on Dec 19th 2022</h3>
                 </b>

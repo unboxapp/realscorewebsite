@@ -9,6 +9,7 @@ import CreditScoreImage2 from './assets/650-700.png';
 import CreditScoreImage3 from './assets/700-750.png';
 import CreditScoreImage4 from './assets/750-800.png';
 import CreditScoreImage5 from './assets/800-900.png';
+import LogoRealScore from './assets/RealScoreLogo.webp';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
@@ -427,7 +428,7 @@ const FirstComponent = () => {
       )}
       <div className="Topnav">
         <div className="logo">
-          <img src="../image/RealScoreLogo.png" alt="Logo" height="40px"  />
+          <img src={LogoRealScore} alt="Logo" height="40px"  />
         </div>
        
       </div>

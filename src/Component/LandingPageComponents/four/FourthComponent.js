@@ -1,6 +1,12 @@
 import React from 'react';
 import { useEffect, useRef } from "react";
-import './Pagefour.css';  // Import the CSS file
+import './Pagefour.css';  // Import the CSS
+import Icon1 from './assets/icon1.webp';
+import Icon2 from './assets/icon2.webp';
+import Icon3 from './assets/icon3.webp';
+import Icon4 from './assets/icon4.webp';
+import Icon5 from './assets/icon5.webp';
+import Icon6 from './assets/icon6.webp';
 
 const FourthComponent = () => {
   const headingRef = useRef(null);
@@ -36,12 +42,12 @@ return () => {
 }, []);
 
   const cardData = [
-    { text: "Pay bill on time", image: "/image/icon1.png" },
-    { text: "Reduce card utilisation", image: "/image/icon2.avif" },
-    { text: "Monitor reports for errors", image: "/image/icon3.png" },
-    { text: "Do not open many credit accounts", image: "/image/icon4.jpg" },
-    { text: "Maintain mix of accounts", image: "/image/icon5.webp" },
-    { text: "Keep old credit accounts active", image: "/image/icon6.jpg" },
+    { text: "Pay bill on time", image: Icon1 },
+    { text: "Reduce card utilisation", image: Icon2 },
+    { text: "Monitor reports for errors", image: Icon3 },
+    { text: "Do not open many credit accounts", image: Icon4 },
+    { text: "Maintain mix of accounts", image: Icon5 },
+    { text: "Keep old credit accounts active", image: Icon6 },
   ];
 
   return (
@@ -55,7 +61,7 @@ return () => {
         </ul>
     <div className="cards-list">
       <div className="Heading scale-element" ref={headingRef}>
-        <h1>How can you improve your credit score?</h1>
+        <h2>How can you improve your credit score?</h2>
       </div>
       {cardData.map((card, index) => (
         <div key={index} className="cardy scale-element " ref={(el) => (cardsRef.current[index] = el)}>

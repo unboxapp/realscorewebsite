@@ -46,7 +46,7 @@
   padding: 20px;
 }
 
-.meter-container h1 {
+.meter-container h2 {
   font-size: 2.5rem; /* Use relative font size */
   font-weight: bold;
   margin-bottom: 20px;
@@ -204,7 +204,7 @@
 }
 
 @media (max-width: 480px) {
-  .meter-container h1 {
+  .meter-container h2 {
     font-size: 1.5rem; /* Smaller font for title */
   }
 

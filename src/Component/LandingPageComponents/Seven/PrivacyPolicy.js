@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
                 </div>
             </div>
             <div className="text-term">
-                <h1>Privacy Policy</h1>
+                <h2>Privacy Policy</h2>
                 <p>
                      
 

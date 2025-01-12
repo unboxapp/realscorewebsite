@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import './Pagetwo.css';
 import { Playstore } from './Playstore';
+import PhonePhoto from './assets/imagess-removebg-preview.webp';
 
 const SecondComponent = () => {
   const elementsRef = useRef([]);
@@ -34,7 +35,7 @@ const SecondComponent = () => {
         className="PhoneLeft fade-element fade-in-left"
         ref={(el) => (elementsRef.current[0] = el)}
       >
-       <img src="./image/imagess-removebg-preview.png" alt="Phone Preview" />
+        <img src={PhonePhoto} alt="Phone Preview" />
       </div>
       <div
         className="WhatisRight fade-element fade-in-right"
@@ -45,7 +46,7 @@ const SecondComponent = () => {
           ref={(el) => (elementsRef.current[2] = el)}
         >
           <u>
-            <h1>What is Real Score?</h1>
+            <h2>What is Real Score?</h2>
           </u>
         </div>
         <div
@@ -53,30 +54,19 @@ const SecondComponent = () => {
           ref={(el) => (elementsRef.current[3] = el)}
         >
           <p>
-            RealScore Service is your trusted partner in repairing credit scores
-            and credit histories. By removing negative flags from your profile,
-            it ensures credit becomes more accessible and financial health
-            improves.
-          </p>
-          <p>
-            The process begins with a detailed examination of your credit
-            report. Experts meticulously identify errors, discrepancies, or
-            areas requiring improvement to create an accurate and reliable
-            credit profile.
-          </p>
-          <p>
-            Beyond identifying issues, RealScore implements tailored strategies
-            to rectify errors and strengthen your credit profile. These
-            solutions are customized to address your unique financial
-            challenges.
-          </p>
-          <p>
-            This comprehensive approach minimizes future financial risks and
-            empowers you with a healthier credit standing, unlocking better
-            opportunities for a brighter future.
+          RealScore Service is your go-to solution for improving credit scores and repairing credit histories. We specialize in removing negative items from your profile, ensuring financial health and easier credit access.
+</p>
+<p>
+Our process starts with an in-depth analysis of your credit report, where we identify errors and discrepancies that may harm your credit standing. Our experts then craft customized strategies to rectify inaccuracies and strengthen your credit profile.
+</p>
+<p>
+By focusing on accuracy and tailored solutions, RealScore empowers you with tools to achieve long-term financial success. Whether it’s correcting errors or providing actionable advice, we minimize future financial risks and help you unlock opportunities like lower interest rates and easier loan approvals.
+</p>
+<p>
+Partner with RealScore for expert-driven credit repair and a brighter financial future.
           </p>
         </div>
-        <Playstore></Playstore>
+        <Playstore />
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  width: 100%;        /* Ensures body fits the viewport width */
+  margin: 0; 
 }
 
 code {

@@ -74,7 +74,7 @@ body {
 }
 
 /* Heading styling */
-.heading h1 {
+.heading h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -83,7 +83,7 @@ body {
   animation: fadeInTop 2s ease-out;
 }
 
-.heading h1 u {
+.heading h2 u {
   text-decoration-color: #ff4500;
   text-decoration-thickness: 2px;
 }
@@ -114,7 +114,7 @@ body {
     margin-left: 0;
   }
 
-  .heading h1 {
+  .heading h2 {
     font-size: 2.2rem; /* Slightly larger for better visibility */
     text-align: center; /* Center-align for better focus on smaller screens */
     margin-bottom: 0.5rem;
@@ -134,7 +134,7 @@ body {
     gap: 0.8rem; /* Consistent spacing */
   }
 
-  .heading h1 {
+  .heading h2 {
     font-size: 2rem; /* Scaled-down font size */
     text-align: center; /* Center-align for consistency */
   }
@@ -159,7 +159,7 @@ body {
     margin-bottom: 1rem; /* Add spacing below the image */
   }
 
-  .heading h1 {
+  .heading h2 {
     font-size: 1.6rem; /* Slightly reduced for smaller screens */
     text-align: center;
     margin-bottom: 0.3rem;
