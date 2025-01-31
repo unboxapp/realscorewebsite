@@ -1,6 +1,7 @@
 import React from "react";
 import "./Terms2.css"; 
 import SeventhComponent from './SeventhComponent';
+import LogoRealScore from './assets/RealScoreLogo.webp';
 
 
 const PrivacyPolicy = () => {
@@ -8,7 +9,7 @@ const PrivacyPolicy = () => {
         <div className="outer-priv">
             <div className="nav-term">
                 <div className="logo">
-                    <img src="./image/RealScoreLogo.webp" alt="Logo" height="100px" />
+                    <img src={LogoRealScore} alt="Logo" height="100px" />
                 </div>
             </div>
             <div className="text-term">
