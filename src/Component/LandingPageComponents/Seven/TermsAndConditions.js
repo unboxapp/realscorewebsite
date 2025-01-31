@@ -1,22 +1,20 @@
 import React from "react";
 import "./Terms.css"; 
 import SeventhComponent from './SeventhComponent';
-
+import LogoRealScore from './assets/RealScoreLogo.webp';
 
 const TermsAndConditions = () => {
     return (
         <div className="outer-term">
             <div className="nav-term">
                 <div className="logot">
-                    <img src="../image/RealScoreLogo.png" alt="Logo" height="100px" />
+                    <img src={LogoRealScore} alt="Logo" height="40px" />
                 </div>
             </div>
             <div className="text-term">
                 <h1>Terms and Conditions</h1>
                 <p>
-                     
-
-The website and LoanUnbox / RealScore mobile application (the “service”). This section contains the Privacy Policy (“Policy”) of the Website and should be read along with the Terms and Conditions of Use of the Website.<br></br>
+                    The website and LoanUnbox / RealScore mobile application (the “service”)This section contains the Privacy Policy (“Policy”) of the Website and should be read along with the Terms and Conditions of Use of the Website.<br></br>
 
 Each visitor (“You”) who visits the Website, accesses any of the pages and/or provides information on the Website to LoanUnbox (“LoanUnbox / RealScore” or “We” or “Our”) has agreed to the terms set out in this Policy.<br></br>
 
@@ -88,12 +86,10 @@ To protect against legal liability.<br></br>
 Changes To This Privacy Policy:<br></br>
 
 We may update our Privacy Policy from time to time. We will notify of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.<br></br>
-
                 </p>
             </div>
-           <SeventhComponent/>
+            <SeventhComponent />
         </div>
-
     );
 };
 
