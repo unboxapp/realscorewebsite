@@ -31,16 +31,15 @@ const SchemaMarkup = () => {
     "@type": "Organization",
     "name": "RealScore",
     "url": "https://realscore.in",
-    "logo": "https://realscore.in/logo.png",
+    "logo": "https://realscore.in/static/media/RealScoreLogo.fa8586943edf23856831.webp",
     "description": "RealScore is a trusted credit repair service helping users fix credit report errors, improve credit scores, and enhance financial health.",
     "sameAs": [
-      "https://www.facebook.com/realscore",
-      "https://www.twitter.com/realscore",
-      "https://www.linkedin.com/company/realscore"
+      "https://www.facebook.com/people/RealScore/61563956750710/",
+      "https://www.linkedin.com/company/realscore-creditscore/"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91-XXXXXXXXXX",
+      "telephone": "+91-9481122404",
       "contactType": "customer support"
     }
   };
