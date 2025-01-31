@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
         <div className="outer-priv">
             <div className="nav-term">
                 <div className="logo">
-                    <img src="../image/RealScoreLogo.png" alt="Logo" height="100px" />
+                    <img src="./image/RealScoreLogo.webp" alt="Logo" height="100px" />
                 </div>
             </div>
             <div className="text-term">
