@@ -1,6 +1,13 @@
 .outer-ref{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: aliceblue;
-   
+    width: 100vw;
+    min-height: 100vh; 
+    box-sizing: border-box; 
+    padding: 20px; 
 }
 .text-term {
     margin: 60px 350px;

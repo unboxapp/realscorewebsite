@@ -1,49 +1,57 @@
 /* General styling for the outer container */
 .outer-term {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: aliceblue;
-    padding: 10px; /* Padding for mobile view */
+    width: 100vw;
+    min-height: 100vh; 
+    box-sizing: border-box; 
+    padding: 20px; 
 }
 
 /* Navigation bar, adjusting text alignment */
 .nav-term {
     text-align: left;
-    padding: 10px;
+    padding: 15px; /* Padding for better spacing */
 }
 
 /* Main content styling */
 .text-term {
     margin: 20px auto; /* Automatically adjusts margins to center */
-    max-width: 1000px; /* Limit max width on large screens */
+    max-width: 1000px; /* Limit max width on larger screens */
     text-align: justify;
-    font-size: large;
+    font-size: 1.2em; /* Default font size for desktop */
     color: rgb(67, 67, 67);
     line-height: 1.8;
+    padding: 0 20px; /* Default horizontal padding */
 }
 
 /* Heading styling */
 .text-term h1 {
     text-align: center;
     margin: 20px 0;
-    font-size: 1.8em; /* Larger font for desktop */
+    font-size: 2em; /* Larger font for desktop */
 }
 
 /* Mobile-responsive adjustments */
 @media only screen and (max-width: 768px) {
     .text-term {
         margin: 15px; /* Adjust margins for mobile */
-        font-size: 16px; /* Adjust font size for better readability */
+        font-size: 16px; /* Adjust font size for better readability on mobile */
         line-height: 1.6; /* Adjust line height for readability */
         padding: 0 15px; /* Add horizontal padding for mobile view */
     }
 
     .text-term h1 {
-        font-size: 1.4em; /* Adjust heading size for mobile */
+        font-size: 1.5em; /* Adjust heading size for mobile */
         margin: 10px 0; /* Reduce margin for mobile */
     }
 
     /* Adjust padding for outer container */
     .outer-term {
-        padding: 5px 10px; /* Reduce padding for mobile */
+        padding: 10px 15px; /* Reduce padding for mobile */
     }
 }
 
@@ -55,6 +63,11 @@
     }
 
     .text-term h1 {
-        font-size: 1.2em; /* Reduce font size further for small screens */
+        font-size: 1.3em; /* Reduce font size further for small screens */
+    }
+
+    /* Further reduce padding for small devices */
+    .outer-term {
+        padding: 5px 10px;
     }
 }
