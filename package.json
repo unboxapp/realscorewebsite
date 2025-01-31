@@ -15,6 +15,7 @@
     "jspdf-autotable": "^3.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-mobile-app-button": "^1.2.18",
     "react-modal": "^3.16.3",
     "react-router-dom": "^7.1.0",
